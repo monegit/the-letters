@@ -19,7 +19,6 @@ const Input = (props: ParagraphContent) => {
         color: "rgb(100,116,139)",
       }}
       onChange={props.onChange}
-      // onChange={props.onChange}
       onFocus={(event) => {
         focusAnimation.start({
           background: "rgb(226,232,240)",

@@ -33,8 +33,6 @@ const LetterPanel = () => {
   const [paragraph, setParagraph] = useState<ReactElement[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
 
-  useEffect(() => {}, [query]);
-
   useEffect(() => {
     setPageIndex(Number(query.at(0)?.[1]));
 

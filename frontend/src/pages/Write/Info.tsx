@@ -26,7 +26,7 @@ const Information = (props: { animate: AnimationControls }) => {
   function Submit() {
     if (name !== "") {
       props.animate.start({ opacity: 0 }).then(() => {
-        navigate(`/write/${name}`);
+        navigate(`/write/${name}?page=0&`);
       });
     } else {
       inputAnimation.set({ left: 10 });
