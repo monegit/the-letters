@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
-import WriteInfo from "./pages/Write/Info";
-import Write from "./pages/Write/Write";
+import WriteInfo from "./pages/write/Info";
+import Write from "./pages/write/Write";
 
 function App() {
   return (
