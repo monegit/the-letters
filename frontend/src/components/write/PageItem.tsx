@@ -1,8 +1,7 @@
 import { motion, useAnimation } from "framer-motion";
 import { ReactElement, useEffect } from "react";
-import { useMemo } from "react";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { letterStore } from "../../store/write/letter";
 
 function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
@@ -16,14 +15,21 @@ function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
   const sp = new URLSearchParams();
 
   useEffect(() => {
-    setParagraphsData(paragraphs[props.pageIndex]);
-    setParagraphItemList(
-      paragraphsData?.map((p, index) => (
-        <div className="text-center" key={`${props.pageIndex}${index}`}>
-          <div key={`${props.pageIndex}${p}${index}`}>{p}</div>
-        </div>
-      ))
-    );
+    function handlekeydownEvent() {
+      setParagraphsData(paragraphs[props.pageIndex]);
+      setParagraphItemList(
+        paragraphsData?.map((p, index) => (
+          <div className="text-center" key={`${props.pageIndex}${index}`}>
+            <div key={`${props.pageIndex}${p}${index}`}>{p}</div>
+          </div>
+        ))
+      );
+    }
+
+    document.addEventListener("keyup", handlekeydownEvent);
+    return () => {
+      document.removeEventListener("keyup", handlekeydownEvent);
+    };
   }, [paragraphsData, paragraphItemList, paragraphs, props.pageIndex]);
 
   return (
