@@ -1,14 +1,12 @@
-// import create from "zustand/react";
-
 import create from "zustand";
 
 export interface LetterState {
   // pageIndex: number;
-  paragraphs: string[][];
+  paragraphList: string[][];
 }
 
 export const letterStore = create<LetterState>()((set) => ({
-  paragraphs: [[]],
+  paragraphList: [[]],
   // pageIndex: 0,
   // setParagraphs: (input: string, index: number) =>
 }));

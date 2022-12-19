@@ -7,7 +7,7 @@ import { letterStore } from "../../store/write/letter";
 function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
   const navigate = useNavigate();
   const itemAnimation = useAnimation();
-  const { paragraphs } = letterStore();
+  const { paragraphList } = letterStore();
   const [paragraphsData, setParagraphsData] = useState([""]);
   const [paragraphItemList, setParagraphItemList] = useState<ReactElement[]>(
     []
@@ -16,7 +16,7 @@ function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
 
   useEffect(() => {
     function handlekeydownEvent() {
-      setParagraphsData(paragraphs[props.pageIndex]);
+      setParagraphsData(paragraphList[props.pageIndex]);
       setParagraphItemList(
         paragraphsData?.map((p, index) => (
           <div className="text-center" key={`${props.pageIndex}${index}`}>
@@ -30,7 +30,7 @@ function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
     return () => {
       document.removeEventListener("keyup", handlekeydownEvent);
     };
-  }, [paragraphsData, paragraphItemList, paragraphs, props.pageIndex]);
+  }, [paragraphsData, paragraphItemList, paragraphList, props.pageIndex]);
 
   return (
     <motion.div

@@ -43,7 +43,7 @@ const Input = (props: ParagraphContent) => {
 const ParagraphItem = (props: ParagraphContent) => {
   return (
     <div className="h-max">
-      <Input content={props.content} onChange={props.onChange} />
+      <Input content={props.content ?? ""} onChange={props.onChange} />
     </div>
   );
 };

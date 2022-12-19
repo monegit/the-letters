@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import Paragraph from "../../components/write/ParagraphItem";
 import PageItem from "../../components/write/PageItem";
@@ -11,17 +11,15 @@ const ParagraphItem = (props: {
   content: string;
   pageIndex: number;
   paragraphIndex: number;
-  onChange?: () => void;
 }) => {
-  const { paragraphs } = letterStore();
-  console.log(paragraphs);
+  const { paragraphList } = letterStore();
 
   return (
     <Paragraph
       key={`paragraph${props.pageIndex ?? ""}${props.paragraphIndex}`}
       content={props.content}
       onChange={(e) => {
-        paragraphs[props.pageIndex][props.paragraphIndex] = e.target.value;
+        paragraphList[props.pageIndex][props.paragraphIndex] = e.target.value;
       }}
     />
   );
@@ -91,11 +89,11 @@ function Write() {
 
   let pageIndex = pages.length;
 
-  const { paragraphs } = letterStore();
+  const { paragraphList } = letterStore();
 
   return (
     <motion.div
-      className="flex md:text-2xl h-screen sm:text-base text-base font-bold text-slate-600 md:flex-row sm:flex-col-reverse flex-col-reverse"
+      className="flex h-screen md:text-2xl sm:text-base text-base font-bold text-slate-600 md:flex-row sm:flex-col-reverse flex-col-reverse"
       animate={bodyAnimation}
       initial={{ opacity: 0 }}
       onViewportEnter={() => bodyAnimation.start({ opacity: 1 })}
@@ -106,7 +104,7 @@ function Write() {
           onClick={() => {
             setPages(pages.concat([<PageItem pageIndex={pageIndex++} />]));
 
-            paragraphs.push([]);
+            paragraphList.push([]);
           }}
           className="md:w-[70px] md:h-fit sm:w-9 sm:h-[70px] w-9 h-[70px] text-2xl place-self-center bg-slate-500 text-white rounded-full"
         >
@@ -119,6 +117,9 @@ function Write() {
         </div>
         <div className="grid gap-3">
           <LetterPanel />
+          <Link to={"../read"}>
+            <button>dd</button>
+          </Link>
         </div>
       </div>
     </motion.div>
