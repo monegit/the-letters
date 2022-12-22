@@ -1,18 +1,16 @@
 import { motion, useAnimation } from "framer-motion";
 import { ReactElement, useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { letterStore } from "../../store/write/letter";
+import { letterStore, pageStore } from "../../store/write/letter";
 
 function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
-  const navigate = useNavigate();
   const itemAnimation = useAnimation();
   const { paragraphList } = letterStore();
   const [paragraphsData, setParagraphsData] = useState([""]);
   const [paragraphItemList, setParagraphItemList] = useState<ReactElement[]>(
     []
   );
-  const sp = new URLSearchParams();
+  const { setPageIndex } = pageStore();
 
   useEffect(() => {
     function handlekeydownEvent() {
@@ -49,10 +47,11 @@ function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
         transition: { duration: 0.1 },
       }}
       onTap={() => {
-        paragraphsData?.forEach((p, index) => {
-          sp.append(index.toString(), p);
-        });
-        navigate(`?page=${props.pageIndex}&${sp.toString()}`);
+        // paragraphsData?.forEach((p, index) => {
+        //   sp.append(index.toString(), p);
+        // });
+        // navigate(`?page=${props.pageIndex}&${sp.toString()}`);
+        setPageIndex(props.pageIndex);
       }}
     >
       <div className="flex flex-col gap-2 overflow-hidden">

@@ -1,13 +1,14 @@
 import { AnimationControls, motion, useAnimation } from "framer-motion";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { letterStore } from "../../store/write/letter";
 
 const Information = (props: { animate: AnimationControls }) => {
   const titleAnimation = useAnimation();
   const inputAnimation = useAnimation();
   const buttonAnimation = useAnimation();
   const navigate = useNavigate();
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
+  const { name, setName } = letterStore();
 
   const examNameList = [
     "내 사랑",
@@ -26,7 +27,7 @@ const Information = (props: { animate: AnimationControls }) => {
   function Submit() {
     if (name !== "") {
       props.animate.start({ opacity: 0 }).then(() => {
-        navigate(`/write/${name}?page=0&`);
+        navigate(`/write/`);
       });
     } else {
       inputAnimation.set({ left: 10 });
@@ -81,6 +82,7 @@ const Information = (props: { animate: AnimationControls }) => {
           examNameList[Math.floor(Math.random() * examNameList.length)]
         }
         onChange={(value) => {
+          // setName(value.target.value);
           setName(value.target.value);
         }}
         animate={inputAnimation}

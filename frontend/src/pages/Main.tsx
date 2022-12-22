@@ -11,7 +11,7 @@ const Table = (props: { bodyAnimation: AnimationControls }) => {
       <div
         onClick={() => {
           props.bodyAnimation.start({ opacity: 0 }).then(() => {
-            return navigate("/write");
+            return navigate("/info");
           });
         }}
       >

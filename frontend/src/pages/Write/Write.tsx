@@ -1,12 +1,12 @@
 import { ReactElement, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import Paragraph from "../../components/write/ParagraphItem";
 import PageItem from "../../components/write/PageItem";
 import { useEffect } from "react";
-import { useMemo } from "react";
-import { letterStore } from "../../store/write/letter";
+import { letterStore, pageStore } from "../../store/write/letter";
 
+//TODO: url query로 페이지 정보 불러오는거 제거하고 상태관리로 관리
 const ParagraphItem = (props: {
   content: string;
   pageIndex: number;
@@ -16,7 +16,7 @@ const ParagraphItem = (props: {
 
   return (
     <Paragraph
-      key={`paragraph${props.pageIndex ?? ""}${props.paragraphIndex}`}
+      key={`write/paragraph${props.pageIndex ?? ""}${props.paragraphIndex}`}
       content={props.content}
       onChange={(e) => {
         paragraphList[props.pageIndex][props.paragraphIndex] = e.target.value;
@@ -26,36 +26,31 @@ const ParagraphItem = (props: {
 };
 
 const LetterPanel = () => {
-  const [searchParams] = useSearchParams();
-  const query = useMemo(() => [...searchParams], [searchParams]);
   const [paragraph, setParagraph] = useState<ReactElement[]>([]);
-  const [pageIndex, setPageIndex] = useState(0);
+  const { selectedPageIndex } = pageStore();
+  const { paragraphList } = letterStore();
 
   useEffect(() => {
-    setPageIndex(Number(query.at(0)?.[1]));
-
     /** 문단 초기화 */
-    const paragraphList =
-      query.length === 1
+    const paragraphContents =
+      paragraphList[selectedPageIndex].length === 0
         ? [
             <ParagraphItem
               content={""}
-              pageIndex={pageIndex}
+              pageIndex={selectedPageIndex}
               paragraphIndex={0}
             />,
           ]
-        : query
-            .slice(1, query.length)
-            .map((p, index) => (
-              <ParagraphItem
-                content={p[1]}
-                pageIndex={pageIndex}
-                paragraphIndex={index}
-              />
-            ));
+        : paragraphList[selectedPageIndex].map((paragraph, index) => (
+            <ParagraphItem
+              content={paragraph}
+              pageIndex={selectedPageIndex}
+              paragraphIndex={index}
+            />
+          ));
 
-    setParagraph(paragraphList);
-  }, [pageIndex, query]);
+    setParagraph(paragraphContents);
+  }, [paragraphList, selectedPageIndex]);
 
   return (
     <div className="grid gap-3 md:text-lg sm:text-sm text-sm">
@@ -67,7 +62,7 @@ const LetterPanel = () => {
             paragraph.concat(
               <ParagraphItem
                 content={""}
-                pageIndex={pageIndex}
+                pageIndex={selectedPageIndex}
                 paragraphIndex={paragraph.length}
               />
             )
@@ -81,15 +76,19 @@ const LetterPanel = () => {
 };
 
 function Write() {
-  const location = useParams();
+  const navigate = useNavigate();
   const bodyAnimation = useAnimation();
   const [pages, setPages] = useState<ReactElement[]>([
     <PageItem pageIndex={0} />,
   ]);
 
-  let pageIndex = pages.length;
+  const { paragraphList, name } = letterStore();
 
-  const { paragraphList } = letterStore();
+  useEffect(() => {
+    if (name === "") {
+      navigate("/info");
+    }
+  });
 
   return (
     <motion.div
@@ -102,7 +101,9 @@ function Write() {
         {pages}
         <button
           onClick={() => {
-            setPages(pages.concat([<PageItem pageIndex={pageIndex++} />]));
+            setPages(
+              pages.concat([<PageItem pageIndex={paragraphList.length} />])
+            );
 
             paragraphList.push([]);
           }}
@@ -113,7 +114,7 @@ function Write() {
       </div>
       <div className="flex w-screen flex-col items-center h-screen">
         <div className="flex mt-5 px-3 border-b-2 border-slate-400 w-fit">
-          {location.name}님께 보내는 편지
+          {name}님께 보내는 편지
         </div>
         <div className="grid gap-3">
           <LetterPanel />
