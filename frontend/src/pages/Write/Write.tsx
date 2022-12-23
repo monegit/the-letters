@@ -4,9 +4,9 @@ import { motion, useAnimation } from "framer-motion";
 import Paragraph from "../../components/write/ParagraphItem";
 import PageItem from "../../components/write/PageItem";
 import { useEffect } from "react";
-import { letterStore, pageStore } from "../../store/write/letter";
+import { letterStore } from "../../store/write/letter";
+import { pageStore } from "../../store/write/page";
 
-//TODO: url query로 페이지 정보 불러오는거 제거하고 상태관리로 관리
 const ParagraphItem = (props: {
   content: string;
   pageIndex: number;
@@ -16,7 +16,7 @@ const ParagraphItem = (props: {
 
   return (
     <Paragraph
-      key={`write/paragraph${props.pageIndex ?? ""}${props.paragraphIndex}`}
+      key={`write/paragraph/${props.pageIndex ?? ""}${props.paragraphIndex}`}
       content={props.content}
       onChange={(e) => {
         paragraphList[props.pageIndex][props.paragraphIndex] = e.target.value;

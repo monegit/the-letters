@@ -1,7 +1,10 @@
 import { motion, useAnimation } from "framer-motion";
 import { ReactElement, useEffect } from "react";
 import { useState } from "react";
-import { letterStore, pageStore } from "../../store/write/letter";
+import { letterStore } from "../../store/write/letter";
+import { pageStore } from "../../store/write/page";
+
+// load되면 상태관리에서 정보 가져오기.
 
 function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
   const itemAnimation = useAnimation();
@@ -11,7 +14,6 @@ function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
     []
   );
   const { setPageIndex } = pageStore();
-
   useEffect(() => {
     function handlekeydownEvent() {
       setParagraphsData(paragraphList[props.pageIndex]);
@@ -47,10 +49,6 @@ function PageIndex(props: { pageIndex: number; paragraphs?: string[] }) {
         transition: { duration: 0.1 },
       }}
       onTap={() => {
-        // paragraphsData?.forEach((p, index) => {
-        //   sp.append(index.toString(), p);
-        // });
-        // navigate(`?page=${props.pageIndex}&${sp.toString()}`);
         setPageIndex(props.pageIndex);
       }}
     >
