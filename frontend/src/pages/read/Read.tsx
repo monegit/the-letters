@@ -49,27 +49,24 @@ function Read() {
     <motion.div
       className="grid w-screen h-screen cursor-pointer place-content-center md:text-2xl sm:text-base text-base"
       onTap={() => {
-        if (enable) {
-          setParagraphItemList(
-            paragraphItemList.concat(
-              <ParagraphItem
-                paragraph={
-                  paragraphContents[currentPageIndex][currentParagraphIndex]
-                }
-              />
-            )
-          );
+        if (!enable) return;
+        setParagraphItemList(
+          paragraphItemList.concat(
+            <ParagraphItem
+              paragraph={
+                paragraphContents[currentPageIndex][currentParagraphIndex]
+              }
+            />
+          )
+        );
 
-          if (
-            paragraphList[currentPageIndex].length === currentParagraphIndex
-          ) {
-            IncreasePageIndex();
-            ResetParagraphIndex();
+        if (paragraphList[currentPageIndex].length === currentParagraphIndex) {
+          IncreasePageIndex();
+          ResetParagraphIndex();
 
-            setParagraphItemList([]);
-          } else {
-            IncreaseParagraphIndex();
-          }
+          setParagraphItemList([]);
+        } else {
+          IncreaseParagraphIndex();
         }
       }}
     >
