@@ -1,14 +1,15 @@
 import { ReactElement, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion, useAnimation } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { AnimationControls, motion, useAnimation } from "framer-motion";
 import Paragraph from "../../components/write/ParagraphItem";
 import PageItem from "../../components/write/PageItem";
 import { useEffect } from "react";
 import { letterStore } from "../../store/write/letter";
 import { pageStore } from "../../store/write/page";
+import Button from "../../components/write/Button";
 
 const ParagraphItem = (props: {
-  content: string;
+  content?: string;
   pageIndex: number;
   paragraphIndex: number;
 }) => {
@@ -25,22 +26,17 @@ const ParagraphItem = (props: {
   );
 };
 
-const LetterPanel = () => {
+const LetterPanel = (props: { animation: AnimationControls }) => {
   const [paragraph, setParagraph] = useState<ReactElement[]>([]);
   const { selectedPageIndex } = pageStore();
   const { paragraphList } = letterStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     /** 문단 초기화 */
     const paragraphContents =
       paragraphList[selectedPageIndex].length === 0
-        ? [
-            <ParagraphItem
-              content={""}
-              pageIndex={selectedPageIndex}
-              paragraphIndex={0}
-            />,
-          ]
+        ? [<ParagraphItem pageIndex={selectedPageIndex} paragraphIndex={0} />]
         : paragraphList[selectedPageIndex].map((paragraph, index) => (
             <ParagraphItem
               content={paragraph}
@@ -55,22 +51,36 @@ const LetterPanel = () => {
   return (
     <div className="grid gap-3 md:text-lg sm:text-sm text-sm">
       <div className="grid p-6 gap-3">{paragraph}</div>
-      <button
-        className={`bg-slate-500 text-white px-6 py-2 w-fit place-self-center rounded-lg `}
-        onClick={() => {
-          setParagraph(
-            paragraph.concat(
-              <ParagraphItem
-                content={""}
-                pageIndex={selectedPageIndex}
-                paragraphIndex={paragraph.length}
-              />
-            )
-          );
-        }}
-      >
-        추가
-      </button>
+      <div className="flex gap-2 justify-center">
+        <Button
+          content="문단 추가"
+          onClick={() => {
+            if (paragraph.length >= 6) return;
+            setParagraph(
+              paragraph.concat(
+                <ParagraphItem
+                  pageIndex={selectedPageIndex}
+                  paragraphIndex={paragraph.length}
+                />
+              )
+            );
+          }}
+        />
+        <Button
+          content="미리보기"
+          background="bg-emerald-500"
+          onClick={() => {
+            props.animation.start({ opacity: 0 }).then(() => {
+              navigate("../read");
+            });
+          }}
+        />
+        <Button
+          background="bg-rose-500"
+          content="작성 중단"
+          onClick={() => {}}
+        />
+      </div>
     </div>
   );
 };
@@ -78,11 +88,14 @@ const LetterPanel = () => {
 function Write() {
   const navigate = useNavigate();
   const bodyAnimation = useAnimation();
-  const [pages, setPages] = useState<ReactElement[]>([
-    <PageItem pageIndex={0} />,
-  ]);
-
   const { paragraphList, name } = letterStore();
+  const [pages, setPages] = useState<ReactElement[]>(
+    paragraphList.length === 0
+      ? [<PageItem index={0} />]
+      : paragraphList.map((data, index) => {
+          return <PageItem index={index} paragraphs={data} />;
+        })
+  );
 
   useEffect(() => {
     if (name === "") {
@@ -101,9 +114,7 @@ function Write() {
         {pages}
         <button
           onClick={() => {
-            setPages(
-              pages.concat([<PageItem pageIndex={paragraphList.length} />])
-            );
+            setPages(pages.concat([<PageItem index={paragraphList.length} />]));
 
             paragraphList.push([]);
           }}
@@ -117,10 +128,7 @@ function Write() {
           {name}님께 보내는 편지
         </div>
         <div className="grid gap-3">
-          <LetterPanel />
-          <Link to={"../read"}>
-            <button>dd</button>
-          </Link>
+          <LetterPanel animation={bodyAnimation} />
         </div>
       </div>
     </motion.div>
