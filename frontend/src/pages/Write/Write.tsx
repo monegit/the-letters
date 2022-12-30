@@ -6,22 +6,24 @@ import PageItem from "../../components/write/PageItem";
 import { useEffect } from "react";
 import { letterStore } from "../../store/write/letter";
 import { pageStore } from "../../store/write/page";
-import Button from "../../components/write/Button";
+import Button from "../../components/Button";
 
+// TODO: key error 잡기
 const ParagraphItem = (props: {
   content?: string;
   pageIndex: number;
   paragraphIndex: number;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }) => {
   const { paragraphList } = letterStore();
 
   return (
     <Paragraph
-      key={`write/paragraph/${props.pageIndex ?? ""}${props.paragraphIndex}`}
       content={props.content}
       onChange={(e) => {
         paragraphList[props.pageIndex][props.paragraphIndex] = e.target.value;
       }}
+      onKeyDown={props.onKeyDown}
     />
   );
 };
@@ -36,9 +38,18 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
     /** 문단 초기화 */
     const paragraphContents =
       paragraphList[selectedPageIndex].length === 0
-        ? [<ParagraphItem pageIndex={selectedPageIndex} paragraphIndex={0} />]
+        ? [
+            <ParagraphItem
+              key={`Write/LetterPanel/pageIndex:${selectedPageIndex}&paragraphIndex:${0}`}
+              pageIndex={selectedPageIndex}
+              paragraphIndex={0}
+            />,
+          ]
         : paragraphList[selectedPageIndex].map((paragraph, index) => (
             <ParagraphItem
+              key={`Write/LetterPanel/pageIndex:${selectedPageIndex}&paragraphIndex:${
+                index + 1
+              }`}
               content={paragraph}
               pageIndex={selectedPageIndex}
               paragraphIndex={index}
@@ -59,15 +70,19 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
             setParagraph(
               paragraph.concat(
                 <ParagraphItem
+                  key={`Write/LetterPanel/pageIndex:${selectedPageIndex}&paragraphIndex:${paragraph.length}`}
                   pageIndex={selectedPageIndex}
                   paragraphIndex={paragraph.length}
+                  onKeyDown={(e) => {
+                    // if(e.key==="Backspace")
+                  }}
                 />
               )
             );
           }}
         />
         <Button
-          content="미리보기"
+          content="작성 점검"
           background="bg-emerald-500"
           onClick={() => {
             props.animation.start({ opacity: 0 }).then(() => {
@@ -91,9 +106,15 @@ function Write() {
   const { paragraphList, name } = letterStore();
   const [pages, setPages] = useState<ReactElement[]>(
     paragraphList.length === 0
-      ? [<PageItem index={0} />]
+      ? [<PageItem key={`Write/Write/pageIndex:0`} index={0} />]
       : paragraphList.map((data, index) => {
-          return <PageItem index={index} paragraphs={data} />;
+          return (
+            <PageItem
+              key={`Write/Write/pageIndex:${index}`}
+              index={index}
+              paragraphs={data}
+            />
+          );
         })
   );
 
@@ -112,9 +133,17 @@ function Write() {
     >
       <div className="flex md:flex-col sm:flex-row flex-row gap-2 md:ml-2 md:my-2 sm:mb-2 sm:mx-2 mb-2 mx-2 bg-slate-300 p-4 rounded-md">
         {pages}
+
         <button
           onClick={() => {
-            setPages(pages.concat([<PageItem index={paragraphList.length} />]));
+            setPages(
+              pages.concat([
+                <PageItem
+                  key={`Write/Write/pageIndex:${paragraphList.length}`}
+                  index={paragraphList.length}
+                />,
+              ])
+            );
 
             paragraphList.push([]);
           }}

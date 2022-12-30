@@ -4,6 +4,7 @@ import React from "react";
 interface ParagraphContent {
   content?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }
 
 const Input = (props: ParagraphContent) => {
@@ -19,7 +20,8 @@ const Input = (props: ParagraphContent) => {
         color: "rgb(100,116,139)",
       }}
       onChange={props.onChange}
-      onFocus={(event) => {
+      onKeyDown={props.onKeyDown}
+      onFocus={() => {
         focusAnimation.start({
           background: "rgb(226,232,240)",
           color: "rgb(71,85,105)",

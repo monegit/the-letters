@@ -12,7 +12,7 @@ function Button(props: ButtonProps) {
     <button
       className={`${props.background || "bg-slate-500"} ${
         props.fontColor || "text-white"
-      } px-6 py-2 w-fit place-self-center rounded-lg `}
+      } px-6 py-2 w-fit place-self-center rounded-lg md:text-lg sm:text-sm text-sm font-bold`}
       onClick={props.onClick}
     >
       {props.content}

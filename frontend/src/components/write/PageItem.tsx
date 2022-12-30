@@ -1,5 +1,5 @@
 import { motion, useAnimation } from "framer-motion";
-import { ReactElement, useEffect, useMemo } from "react";
+import { ReactElement, useEffect } from "react";
 import { useState } from "react";
 import { letterStore } from "../../store/write/letter";
 import { pageStore } from "../../store/write/page";
@@ -9,18 +9,7 @@ const PageParagraphItem = (props: {
   pageIndex: number;
   paragraphIndex: number;
 }) => {
-  return (
-    <div
-      className="text-center"
-      key={`write/PageItem/pageIndex:${props.pageIndex}&paragraphIndex:${props.paragraphIndex}`}
-    >
-      <div
-        key={`write/PageItem/PageParagraphItem/pageIndex:${props.pageIndex}&paragraphIndex:${props.paragraphIndex}`}
-      >
-        {props.paragraph}
-      </div>
-    </div>
-  );
+  return <div className="text-center">{props.paragraph}</div>;
 };
 
 function PageItem(props: { index: number; paragraphs?: string[] }) {
@@ -32,6 +21,7 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
       ? []
       : paragraphList[props.index]?.map((data, index) => (
           <PageParagraphItem
+            key={`write/PageItem/pageIndex:${props.index}&paragraphIndex:${index}`}
             paragraph={data}
             pageIndex={props.index}
             paragraphIndex={index}
@@ -48,6 +38,7 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
       setParagraphItemList(
         paragraphsData?.map((data, index) => (
           <PageParagraphItem
+            key={`write/PageItem/pageIndex:${props.index}&paragraphIndex:${index}`}
             paragraph={data}
             pageIndex={props.index}
             paragraphIndex={index}
