@@ -82,7 +82,7 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
           }}
         />
         <Button
-          content="작성 점검"
+          content="편지 점검"
           background="bg-emerald-500"
           onClick={() => {
             props.animation.start({ opacity: 0 }).then(() => {

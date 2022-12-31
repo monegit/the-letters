@@ -23,8 +23,10 @@
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.4",
+    "mongoose": "^6.8.2",
     "nodemon": "^2.0.20",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

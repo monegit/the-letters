@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 const Table = (props: { bodyAnimation: AnimationControls }) => {
   let navigate = useNavigate();
+
   return (
     <motion.div className={`grid gap-10 md:grid-flow-col`}>
       <div

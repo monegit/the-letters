@@ -4,6 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 import { ParagraphItem } from "../../components/read/ParagraphItem";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import axios, { Axios } from "axios";
 
 function Read() {
   const nameAnimation = useAnimation();
@@ -27,6 +28,7 @@ function Read() {
   );
 
   function init() {
+    nameAnimation.set({ opacity: 0, top: -10 });
     nameAnimation
       .start({
         display: "flex",
@@ -113,7 +115,6 @@ function Read() {
       <motion.div
         className="relative md:text-4xl sm:text-2xl text-2xl font-bold"
         animate={nameAnimation}
-        initial={{ scale: 0.8, opacity: 0, top: -10 }}
         onViewportEnter={() => {
           init();
         }}
@@ -131,16 +132,32 @@ function Read() {
         <span className="font-bold md:text-3xl sm:text-xl text-xl">
           모든 편지 내용을 읽으셨습니다
         </span>
-        <div className="flex gap-2">
-          <Button
-            content={"계속 작성"}
-            background="bg-emerald-500"
-            onClick={() => {
-              bodyAnimation.start({ opacity: 0 }).then(() => {
-                navigate("../Write");
-              });
-            }}
-          />
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-4">
+            <Button
+              content={"계속 작성"}
+              background="bg-emerald-500"
+              onClick={() => {
+                bodyAnimation.start({ opacity: 0 }).then(() => {
+                  navigate("../Write");
+                });
+              }}
+            />
+            <Button
+              content={"작성 완료"}
+              background="bg-rose-500"
+              onClick={() => {
+                axios
+                  .post("http://192.168.1.100:3001/letter/send", {
+                    name: name,
+                    data: paragraphList,
+                  })
+                  .then((body) => {
+                    console.log(body);
+                  });
+              }}
+            />
+          </div>
           <Button
             content={"다시 읽기"}
             background="bg-sky-500"

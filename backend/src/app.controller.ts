@@ -1,20 +1,24 @@
-import { Controller, Get, Post } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { LetterService } from './app.service';
 
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+@Controller('letter')
+export class LetterController {
+  constructor(private readonly service: LetterService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('/receive')
+  sendLetter(
+    @Query('name') name: string,
+    @Query('password') password: string,
+  ): string {
+    return name;
   }
-}
 
-@Controller('Preview')
-export class Write {
-  @Get()
-  aa(): string {
-    return 'asdf';
+  @Post('/send')
+  readLetter(@Body('name') name: string, @Body('data') data: string[][]) {
+    const password = Math.random().toString(32).substring(2);
+    this.service.write(name, data, password);
+
+    // 이름, 비밀번호 전송
+    return JSON.stringify({ name: name, password: password });
   }
 }
