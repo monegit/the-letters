@@ -28,10 +28,9 @@ function Read() {
   );
 
   function init() {
-    nameAnimation.set({ opacity: 0, top: -10 });
+    nameAnimation.set({ display: "block" });
     nameAnimation
       .start({
-        display: "flex",
         opacity: 1,
         top: 0,
         transition: { duration: 0.5, ease: "circOut" },
@@ -57,7 +56,6 @@ function Read() {
     <motion.div
       className="grid w-screen h-screen select-none cursor-pointer place-content-center md:text-2xl sm:text-base text-base"
       animate={bodyAnimation}
-      initial={{ top: -10 }}
       onTap={() => {
         if (!enable) return;
 
@@ -116,6 +114,7 @@ function Read() {
       <motion.div
         className="relative md:text-4xl sm:text-2xl text-2xl font-bold"
         animate={nameAnimation}
+        initial={{ top: -10 }}
         onViewportEnter={() => {
           init();
         }}
@@ -165,6 +164,7 @@ function Read() {
             onClick={() => {
               exitAnimation.start({ opacity: 0 }).then(() => {
                 exitAnimation.set({ display: "none" });
+                nameAnimation.set({ opacity: 0, top: -10 });
                 init();
               });
             }}
