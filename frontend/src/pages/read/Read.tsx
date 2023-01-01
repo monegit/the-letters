@@ -1,10 +1,10 @@
 import { ReactElement, useState } from "react";
-import { letterStore } from "../../store/write/letter";
+import { useLetterStore } from "../../store/write/letter";
 import { motion, useAnimation } from "framer-motion";
 import { ParagraphItem } from "../../components/read/ParagraphItem";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
-import axios, { Axios } from "axios";
+import axios from "axios";
 
 function Read() {
   const nameAnimation = useAnimation();
@@ -12,7 +12,7 @@ function Read() {
   const exitAnimation = useAnimation();
   const bodyAnimation = useAnimation();
 
-  const { paragraphList, name } = letterStore();
+  const { paragraphList, name } = useLetterStore();
 
   const [enable, setEnable] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -57,6 +57,7 @@ function Read() {
     <motion.div
       className="grid w-screen h-screen select-none cursor-pointer place-content-center md:text-2xl sm:text-base text-base"
       animate={bodyAnimation}
+      initial={{ top: -10 }}
       onTap={() => {
         if (!enable) return;
 

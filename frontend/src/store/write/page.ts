@@ -10,7 +10,7 @@ interface PageState {
   setPageCount: (count: number) => void;
 }
 
-export const pageStore = create<PageState>()((set) => ({
+export const usePageStore = create<PageState>()((set) => ({
   selectedPageIndex: 0,
   selectedParagraphIndex: 0,
   pageCount: 0,

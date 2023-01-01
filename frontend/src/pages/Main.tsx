@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/main/Button";
 import OpenLetterItem from "../components/main/OpenLetterItem";
 import { motion } from "framer-motion";
+import Modal from "../components/Modal";
+import { useState } from "react";
+import { useModalStore } from "../store/modal/modal";
 
 const Table = (props: { bodyAnimation: AnimationControls }) => {
   let navigate = useNavigate();
@@ -30,9 +33,12 @@ const Table = (props: { bodyAnimation: AnimationControls }) => {
 };
 
 function Main() {
-  let bodyAnimation = useAnimation();
+  const bodyAnimation = useAnimation();
+  const { setVisible, isVisible } = useModalStore();
+
   return (
     <motion.div className="flex flex-col items-center" animate={bodyAnimation}>
+      <Modal content={<>asdf</>} />
       <Table bodyAnimation={bodyAnimation} />
       <div>
         <OpenLetterItem />
@@ -40,6 +46,14 @@ function Main() {
         <OpenLetterItem />
         <OpenLetterItem />
       </div>
+      <button
+        onClick={() => {
+          setVisible(true);
+          console.log(isVisible);
+        }}
+      >
+        asdf
+      </button>
     </motion.div>
   );
 }

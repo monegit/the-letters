@@ -7,7 +7,7 @@ interface LetterState {
   setName: (name: string) => void;
 }
 
-export const letterStore = create<LetterState>()((set) => ({
+export const useLetterStore = create<LetterState>()((set) => ({
   paragraphList: [[]],
   name: "",
   setName: (name: string) => {

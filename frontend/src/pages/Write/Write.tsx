@@ -4,8 +4,8 @@ import { AnimationControls, motion, useAnimation } from "framer-motion";
 import Paragraph from "../../components/write/ParagraphItem";
 import PageItem from "../../components/write/PageItem";
 import { useEffect } from "react";
-import { letterStore } from "../../store/write/letter";
-import { pageStore } from "../../store/write/page";
+import { useLetterStore } from "../../store/write/letter";
+import { usePageStore } from "../../store/write/page";
 import Button from "../../components/Button";
 
 // TODO: key error 잡기
@@ -15,7 +15,7 @@ const ParagraphItem = (props: {
   paragraphIndex: number;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }) => {
-  const { paragraphList } = letterStore();
+  const { paragraphList } = useLetterStore();
 
   return (
     <Paragraph
@@ -30,8 +30,8 @@ const ParagraphItem = (props: {
 
 const LetterPanel = (props: { animation: AnimationControls }) => {
   const [paragraph, setParagraph] = useState<ReactElement[]>([]);
-  const { selectedPageIndex } = pageStore();
-  const { paragraphList } = letterStore();
+  const { selectedPageIndex } = usePageStore();
+  const { paragraphList } = useLetterStore();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
 function Write() {
   const navigate = useNavigate();
   const bodyAnimation = useAnimation();
-  const { paragraphList, name } = letterStore();
+  const { paragraphList, name } = useLetterStore();
   const [pages, setPages] = useState<ReactElement[]>(
     paragraphList.length === 0
       ? [<PageItem key={`Write/Write/pageIndex:0`} index={0} />]

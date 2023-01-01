@@ -1,6 +1,6 @@
 import { AnimationControls, motion, useAnimation } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { letterStore } from "../../store/write/letter";
+import { useLetterStore } from "../../store/write/letter";
 
 const Information = (props: { animate: AnimationControls }) => {
   const titleAnimation = useAnimation();
@@ -8,7 +8,7 @@ const Information = (props: { animate: AnimationControls }) => {
   const buttonAnimation = useAnimation();
   const navigate = useNavigate();
   // const [name, setName] = useState("");
-  const { name, setName } = letterStore();
+  const { name, setName } = useLetterStore();
 
   const examNameList = [
     "내 사랑",
