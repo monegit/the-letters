@@ -5,6 +5,7 @@ interface LetterState {
   paragraphList: string[][];
 
   setName: (name: string) => void;
+  setInit: () => void;
 }
 
 export const useLetterStore = create<LetterState>()((set) => ({
@@ -12,5 +13,8 @@ export const useLetterStore = create<LetterState>()((set) => ({
   name: "",
   setName: (name: string) => {
     set({ name: name });
+  },
+  setInit: () => {
+    set(() => ({ name: "", paragraphList: [[]] }));
   },
 }));

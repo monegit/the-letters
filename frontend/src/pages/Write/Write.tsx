@@ -7,6 +7,9 @@ import { useEffect } from "react";
 import { useLetterStore } from "../../store/write/letter";
 import { usePageStore } from "../../store/write/page";
 import Button from "../../components/Button";
+import Modal from "../../components/Modal";
+import WriteExit from "../../components/modal/WriteExit";
+import { useModalStore } from "../../store/modal/modal";
 
 // TODO: key error 잡기
 const ParagraphItem = (props: {
@@ -30,8 +33,11 @@ const ParagraphItem = (props: {
 
 const LetterPanel = (props: { animation: AnimationControls }) => {
   const [paragraph, setParagraph] = useState<ReactElement[]>([]);
+
   const { selectedPageIndex } = usePageStore();
   const { paragraphList } = useLetterStore();
+  const { setVisible } = useModalStore();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,7 +99,9 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
         <Button
           background="bg-rose-500"
           content="작성 중단"
-          onClick={() => {}}
+          onClick={() => {
+            setVisible(true);
+          }}
         />
       </div>
     </div>
@@ -102,8 +110,11 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
 
 function Write() {
   const navigate = useNavigate();
+
   const bodyAnimation = useAnimation();
+
   const { paragraphList, name } = useLetterStore();
+
   const [pages, setPages] = useState<ReactElement[]>(
     paragraphList.length === 0
       ? [<PageItem key={`Write/Write/pageIndex:0`} index={0} />]
@@ -131,6 +142,7 @@ function Write() {
       initial={{ opacity: 0 }}
       onViewportEnter={() => bodyAnimation.start({ opacity: 1 })}
     >
+      <Modal content={<WriteExit bodyAnimation={bodyAnimation} />} />
       <div className="flex md:flex-col sm:flex-row flex-row gap-2 md:ml-2 md:my-2 sm:mb-2 sm:mx-2 mb-2 mx-2 bg-slate-300 p-4 rounded-md">
         {pages}
 
