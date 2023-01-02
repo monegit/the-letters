@@ -25,12 +25,12 @@ function Modal(props: { content: ReactNode }) {
 
   return (
     <motion.div
-      className="grid absolute w-full h-full z-10"
+      className="grid absolute w-full h-screen z-10"
       initial={{ opacity: 0, display: "none" }}
       animate={modalAnimation}
     >
       <motion.div
-        className="place-self-center bg-slate-50 z-10 shadow-xl p-14 px-20 rounded-xl"
+        className="place-self-center bg-slate-50 z-10 shadow-xl p-14 rounded-xl"
         animate={contentAnimation}
       >
         {props.content}

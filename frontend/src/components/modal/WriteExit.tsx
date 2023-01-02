@@ -39,9 +39,8 @@ function WriteExit(props: { bodyAnimation: AnimationControls }) {
           background="bg-rose-500"
           onClick={() => {
             props.bodyAnimation.start({ opacity: 0 }).then(() => {
-              setVisible(false);
-              setInit();
               navigate("/");
+              setVisible(false);
             });
           }}
         />

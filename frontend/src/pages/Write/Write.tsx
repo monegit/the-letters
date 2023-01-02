@@ -142,7 +142,6 @@ function Write() {
       initial={{ opacity: 0 }}
       onViewportEnter={() => bodyAnimation.start({ opacity: 1 })}
     >
-      <Modal content={<WriteExit bodyAnimation={bodyAnimation} />} />
       <div className="flex md:flex-col sm:flex-row flex-row gap-2 md:ml-2 md:my-2 sm:mb-2 sm:mx-2 mb-2 mx-2 bg-slate-300 p-4 rounded-md">
         {pages}
 
@@ -164,6 +163,7 @@ function Write() {
           +
         </button>
       </div>
+      <Modal content={<WriteExit bodyAnimation={bodyAnimation} />} />
       <div className="flex w-screen flex-col items-center h-screen">
         <div className="flex mt-5 px-3 border-b-2 border-slate-400 w-fit">
           {name}님께 보내는 편지

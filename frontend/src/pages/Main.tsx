@@ -4,11 +4,18 @@ import Button from "../components/main/Button";
 import OpenLetterItem from "../components/main/OpenLetterItem";
 import { motion } from "framer-motion";
 import Modal from "../components/Modal";
-import { useState } from "react";
 import { useModalStore } from "../store/modal/modal";
+import { useLetterStore } from "../store/write/letter";
+import { useEffect } from "react";
 
 const Table = (props: { bodyAnimation: AnimationControls }) => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const { setInit } = useLetterStore();
+
+  useEffect(() => {
+    setInit();
+  }, [setInit]);
 
   return (
     <motion.div className={`grid gap-10 md:grid-flow-col`}>
