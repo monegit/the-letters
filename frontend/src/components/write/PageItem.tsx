@@ -3,6 +3,7 @@ import { ReactElement, useEffect } from "react";
 import { useState } from "react";
 import { useLetterStore } from "../../store/write/letter";
 import { usePageStore } from "../../store/write/page";
+// import { usePageStore } from "../../store/write/page";
 
 const PageParagraphItem = (props: {
   paragraph: string;
@@ -28,7 +29,7 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
         ))
   );
 
-  const { setPageIndex } = usePageStore();
+  // const { setPageIndex } = usePageStore();
 
   useEffect(() => {
     // keydown 할때마다 상태관리 정보 갱신
@@ -69,7 +70,8 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
         transition: { duration: 0.1 },
       }}
       onTap={() => {
-        setPageIndex(props.index);
+        // setPageIndex(props.index);
+        usePageStore.setState({ selectedPageIndex: props.index });
       }}
     >
       <div className="flex flex-col gap-2 overflow-hidden">

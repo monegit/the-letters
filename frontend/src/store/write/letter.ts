@@ -3,17 +3,16 @@ import create from "zustand";
 interface LetterState {
   name: string;
   paragraphContents: string[][];
+  isPreview: boolean;
 
-  setName: (name: string) => void;
   setInit: () => void;
 }
 
 export const useLetterStore = create<LetterState>()((set) => ({
   paragraphContents: [[]],
   name: "",
-  setName: (name: string) => {
-    set({ name: name });
-  },
+  isPreview: false,
+
   setInit: () => {
     set(() => ({ name: "", paragraphContents: [[]] }));
   },

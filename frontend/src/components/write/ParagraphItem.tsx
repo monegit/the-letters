@@ -18,8 +18,7 @@ const Input = (props: ParagraphProps) => {
   const templateAnimation = useAnimation();
   const optionAnimation = useAnimation();
 
-  const { removeParagraphItem, setSelectedParagraphIndex, selectedPageIndex } =
-    usePageStore();
+  const { selectedPageIndex } = usePageStore();
   const { paragraphContents } = useLetterStore();
 
   return (
@@ -46,7 +45,9 @@ const Input = (props: ParagraphProps) => {
           });
       }}
       onFocus={() => {
-        setSelectedParagraphIndex(props.index);
+        // setSelectedParagraphIndex(props.index);
+        usePageStore.setState({ selectedParagraphIndex: props.index });
+
         templateAnimation.start({
           scale: 1.1,
           transition: { duration: 0.2 },
@@ -87,7 +88,7 @@ const Input = (props: ParagraphProps) => {
         <EdgeButton
           content={"✖︎"}
           onClick={() => {
-            removeParagraphItem(props.uniqueIndex);
+            // removeParagraphItem(props.uniqueIndex);
             // console.log(props.uniqueIndex);
             paragraphContents[selectedPageIndex].splice(props.index, 1);
             useLetterStore.setState({

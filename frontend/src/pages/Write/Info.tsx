@@ -8,7 +8,7 @@ const Information = (props: { animate: AnimationControls }) => {
   const buttonAnimation = useAnimation();
   const navigate = useNavigate();
   // const [name, setName] = useState("");
-  const { name, setName } = useLetterStore();
+  const { name } = useLetterStore();
 
   const examNameList = [
     "내 사랑",
@@ -82,8 +82,7 @@ const Information = (props: { animate: AnimationControls }) => {
           examNameList[Math.floor(Math.random() * examNameList.length)]
         }
         onChange={(value) => {
-          // setName(value.target.value);
-          setName(value.target.value);
+          useLetterStore.setState({ name: value.target.value });
         }}
         animate={inputAnimation}
         initial={{ left: 0, opacity: 0, visibility: "collapse", top: 10 }}
