@@ -41,7 +41,8 @@ const Table = (props: { bodyAnimation: AnimationControls }) => {
 
 function Main() {
   const bodyAnimation = useAnimation();
-  const { setVisible, isVisible } = useModalStore();
+
+  const { isVisible } = useModalStore();
 
   return (
     <motion.div className="flex flex-col items-center" animate={bodyAnimation}>
@@ -55,7 +56,7 @@ function Main() {
       </div>
       <button
         onClick={() => {
-          setVisible(true);
+          useModalStore.setState({ isVisible: true });
           console.log(isVisible);
         }}
       >

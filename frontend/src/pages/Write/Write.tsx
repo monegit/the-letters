@@ -36,15 +36,8 @@ const ParagraphItem = (props: {
 };
 
 const LetterPanel = (props: { animation: AnimationControls }) => {
-  const {
-    selectedPageIndex,
-    // appendParagraphItem,
-    // paragraphItems,
-    // setParagraphItems,
-    // paragraphKey,
-  } = usePageStore();
+  const { selectedPageIndex } = usePageStore();
   const { paragraphContents } = useLetterStore();
-  const { setVisible } = useModalStore();
 
   const navigate = useNavigate();
   const paragraphKey = useRef(0);
@@ -102,7 +95,7 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
           background="bg-rose-500"
           content="작성 중단"
           onClick={() => {
-            setVisible(true);
+            useModalStore.setState({ isVisible: true });
           }}
         />
       </div>

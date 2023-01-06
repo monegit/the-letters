@@ -96,6 +96,7 @@ const Information = (props: { animate: AnimationControls }) => {
         initial={{ opacity: 0, visibility: "collapse", top: 10 }}
         onClick={() => {
           Submit();
+          useLetterStore.setState({ isPreview: true });
         }}
       >
         확인

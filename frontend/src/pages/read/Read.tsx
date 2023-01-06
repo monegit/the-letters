@@ -3,8 +3,8 @@ import { useLetterStore } from "../../store/write/letter";
 import { motion, useAnimation } from "framer-motion";
 import { ParagraphItem } from "../../components/read/ParagraphItem";
 import Button from "../../components/Button";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Read() {
   const nameAnimation = useAnimation();
@@ -12,17 +12,13 @@ function Read() {
   const exitAnimation = useAnimation();
   const bodyAnimation = useAnimation();
 
-  const { paragraphContents, name } = useLetterStore();
+  const { paragraphContents, name, isPreview } = useLetterStore();
 
   const [enable, setEnable] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0);
-
   const navigate = useNavigate();
 
-  const contents = paragraphContents.map((p) => {
-    return p;
-  });
   const [paragraphItemList, setParagraphItemList] = useState<ReactElement[]>(
     []
   );
@@ -136,29 +132,36 @@ function Read() {
         </span>
         <div className="flex flex-col gap-4">
           <div className="flex gap-4">
-            <Button
-              content={"계속 작성"}
-              background="bg-emerald-500"
-              onClick={() => {
-                bodyAnimation.start({ opacity: 0 }).then(() => {
-                  navigate("../Write");
-                });
-              }}
-            />
-            <Button
-              content={"작성 완료"}
-              background="bg-rose-500"
-              onClick={() => {
-                axios
-                  .post("http://192.168.1.100:3001/letter/send", {
-                    name: name,
-                    data: paragraphContents,
-                  })
-                  .then((body) => {
-                    console.log(body);
-                  });
-              }}
-            />
+            {isPreview ? (
+              <div>
+                <Button
+                  content={"계속 작성"}
+                  background="bg-emerald-500"
+                  onClick={() => {
+                    bodyAnimation.start({ opacity: 0 }).then(() => {
+                      navigate("../Write");
+                    });
+                  }}
+                />
+
+                <Button
+                  content={"작성 완료"}
+                  background="bg-rose-500"
+                  onClick={() => {
+                    axios
+                      .post("http://192.168.1.100:3001/letter/send", {
+                        name: name,
+                        data: paragraphContents,
+                      })
+                      .then((body) => {
+                        console.log(body);
+                      });
+                  }}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           <Button
             content={"다시 읽기"}

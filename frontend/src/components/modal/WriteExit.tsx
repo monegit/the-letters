@@ -5,8 +5,6 @@ import { useModalStore } from "../../store/modal/modal";
 import Button from "../Button";
 
 function WriteExit(props: { bodyAnimation: AnimationControls }) {
-  const { setVisible } = useModalStore();
-
   const navigate = useNavigate();
 
   return (
@@ -29,7 +27,7 @@ function WriteExit(props: { bodyAnimation: AnimationControls }) {
         <Button
           content={"취소"}
           onClick={() => {
-            setVisible(false);
+            useModalStore.setState({ isVisible: false });
           }}
         />
         <Button
@@ -38,7 +36,7 @@ function WriteExit(props: { bodyAnimation: AnimationControls }) {
           onClick={() => {
             props.bodyAnimation.start({ opacity: 0 }).then(() => {
               navigate("/");
-              setVisible(false);
+              useModalStore.setState({ isVisible: false });
             });
           }}
         />

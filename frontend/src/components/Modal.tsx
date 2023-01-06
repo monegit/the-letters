@@ -7,7 +7,7 @@ function Modal(props: { content: ReactNode }) {
   const backgroundAnimation = useAnimation();
   const contentAnimation = useAnimation();
 
-  const { isVisible, setVisible } = useModalStore();
+  const { isVisible } = useModalStore();
 
   useEffect(() => {
     if (isVisible) {
@@ -18,10 +18,10 @@ function Modal(props: { content: ReactNode }) {
         .start({ opacity: 0, transition: { duration: 0.15 } })
         .then(() => {
           modalAnimation.set({ display: "none" });
-          setVisible(false);
+          useModalStore.setState({ isVisible: false });
         });
     }
-  }, [isVisible, modalAnimation, setVisible]);
+  }, [isVisible, modalAnimation]);
 
   return (
     <motion.div
@@ -43,7 +43,7 @@ function Modal(props: { content: ReactNode }) {
             .start({ opacity: 0, transition: { duration: 0.15 } })
             .then(() => {
               modalAnimation.set({ display: "none" });
-              setVisible(false);
+              useModalStore.setState({ isVisible: false });
             });
         }}
       />
