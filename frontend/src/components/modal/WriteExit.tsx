@@ -2,12 +2,10 @@ import { AnimationControls } from "framer-motion";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useModalStore } from "../../store/modal/modal";
-import { useLetterStore } from "../../store/write/letter";
 import Button from "../Button";
 
 function WriteExit(props: { bodyAnimation: AnimationControls }) {
   const { setVisible } = useModalStore();
-  const { setInit } = useLetterStore();
 
   const navigate = useNavigate();
 

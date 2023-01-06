@@ -14,12 +14,11 @@ const PageParagraphItem = (props: {
 
 function PageItem(props: { index: number; paragraphs?: string[] }) {
   const itemAnimation = useAnimation();
-  const { paragraphList } = useLetterStore();
-  const [paragraphsData, setParagraphsData] = useState([""]);
+  const { paragraphContents } = useLetterStore();
   const [paragraphItemList, setParagraphItemList] = useState<ReactElement[]>(
-    paragraphList.length === 0
+    paragraphContents.length === 0
       ? []
-      : paragraphList[props.index]?.map((data, index) => (
+      : paragraphContents[props.index]?.map((data, index) => (
           <PageParagraphItem
             key={`write/PageItem/pageIndex:${props.index}&paragraphIndex:${index}`}
             paragraph={data}
@@ -34,11 +33,10 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
   useEffect(() => {
     // keydown 할때마다 상태관리 정보 갱신
     function handlekeydownEvent() {
-      setParagraphsData(paragraphList[props.index]);
       setParagraphItemList(
-        paragraphsData?.map((data, index) => (
+        paragraphContents[props.index]?.map((data, index) => (
           <PageParagraphItem
-            key={`write/PageItem/pageIndex:${props.index}&paragraphIndex:${index}`}
+            key={index}
             paragraph={data}
             pageIndex={props.index}
             paragraphIndex={index}
@@ -52,7 +50,7 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
     return () => {
       document.removeEventListener("keyup", handlekeydownEvent);
     };
-  }, [paragraphsData, paragraphItemList, paragraphList, props.index]);
+  }, [paragraphContents, props.index]);
 
   return (
     <motion.div

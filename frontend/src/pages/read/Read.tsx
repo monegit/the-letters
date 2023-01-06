@@ -12,7 +12,7 @@ function Read() {
   const exitAnimation = useAnimation();
   const bodyAnimation = useAnimation();
 
-  const { paragraphList, name } = useLetterStore();
+  const { paragraphContents, name } = useLetterStore();
 
   const [enable, setEnable] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -20,7 +20,7 @@ function Read() {
 
   const navigate = useNavigate();
 
-  const paragraphContents = paragraphList.map((p) => {
+  const contents = paragraphContents.map((p) => {
     return p;
   });
   const [paragraphItemList, setParagraphItemList] = useState<ReactElement[]>(
@@ -64,7 +64,7 @@ function Read() {
 
         // 문장 추가
         if (
-          paragraphList[currentPageIndex].length - 1 >=
+          paragraphContents[currentPageIndex].length - 1 >=
           currentParagraphIndex
         ) {
           setParagraphItemList(
@@ -80,7 +80,9 @@ function Read() {
         }
 
         // 페이지의 문장이 모두 출력되면 page 초기화
-        if (paragraphList[currentPageIndex].length <= currentParagraphIndex) {
+        if (
+          paragraphContents[currentPageIndex].length <= currentParagraphIndex
+        ) {
           paragraphAnimation
             .start({ opacity: 0 })
             .then(() => {
@@ -97,8 +99,8 @@ function Read() {
             .then(() => {
               // currentPageIndex, currentParagraphIndex가 끝에 도달했을때
               if (
-                paragraphList.length - 1 === currentPageIndex &&
-                paragraphList[paragraphList.length - 1].length ===
+                paragraphContents.length - 1 === currentPageIndex &&
+                paragraphContents[paragraphContents.length - 1].length ===
                   currentParagraphIndex
               ) {
                 exitAnimation.set({
@@ -150,7 +152,7 @@ function Read() {
                 axios
                   .post("http://192.168.1.100:3001/letter/send", {
                     name: name,
-                    data: paragraphList,
+                    data: paragraphContents,
                   })
                   .then((body) => {
                     console.log(body);

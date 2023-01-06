@@ -26,14 +26,14 @@ const Table = (props: { bodyAnimation: AnimationControls }) => {
           });
         }}
       >
-        <Button content="편지 쓰기" icon="memo" />
+        <Button content="편지 쓰기" icon={"📝"} />
       </div>
       <div
         onClick={() => {
           return navigate("/read");
         }}
       >
-        <Button content="편지 읽기" icon="envelope" />
+        <Button content="편지 읽기" icon={"✉️"} />
       </div>
     </motion.div>
   );

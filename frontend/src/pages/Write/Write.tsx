@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimationControls, motion, useAnimation } from "framer-motion";
 import Paragraph from "../../components/write/ParagraphItem";
@@ -17,74 +17,76 @@ const ParagraphItem = (props: {
   pageIndex: number;
   paragraphIndex: number;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  uniqueIndex: number;
 }) => {
-  const { paragraphList } = useLetterStore();
+  const { paragraphContents } = useLetterStore();
 
   return (
     <Paragraph
       content={props.content}
       onChange={(e) => {
-        paragraphList[props.pageIndex][props.paragraphIndex] = e.target.value;
+        paragraphContents[props.pageIndex][props.paragraphIndex] =
+          e.target.value;
       }}
       onKeyDown={props.onKeyDown}
+      index={props.paragraphIndex}
+      uniqueIndex={props.uniqueIndex}
     />
   );
 };
 
 const LetterPanel = (props: { animation: AnimationControls }) => {
-  const [paragraph, setParagraph] = useState<ReactElement[]>([]);
-
-  const { selectedPageIndex } = usePageStore();
-  const { paragraphList } = useLetterStore();
+  const {
+    selectedPageIndex,
+    // appendParagraphItem,
+    // paragraphItems,
+    // setParagraphItems,
+    // paragraphKey,
+  } = usePageStore();
+  const { paragraphContents } = useLetterStore();
   const { setVisible } = useModalStore();
 
   const navigate = useNavigate();
+  const paragraphKey = useRef(0);
+  const [paragraphItems, setParagraphItems] = useState<ReactElement[]>([]);
 
   useEffect(() => {
-    /** 문단 초기화 */
-    const paragraphContents =
-      paragraphList[selectedPageIndex].length === 0
-        ? [
+    // 페이지 문단 초기화
+    paragraphContents[selectedPageIndex].length === 0
+      ? setParagraphItems([
+          <ParagraphItem
+            key={0}
+            uniqueIndex={0}
+            pageIndex={selectedPageIndex}
+            paragraphIndex={0}
+          />,
+        ])
+      : setParagraphItems(
+          paragraphContents[selectedPageIndex].map((paragraph, index) => (
             <ParagraphItem
-              key={`Write/LetterPanel/pageIndex:${selectedPageIndex}&paragraphIndex:${0}`}
-              pageIndex={selectedPageIndex}
-              paragraphIndex={0}
-            />,
-          ]
-        : paragraphList[selectedPageIndex].map((paragraph, index) => (
-            <ParagraphItem
-              key={`Write/LetterPanel/pageIndex:${selectedPageIndex}&paragraphIndex:${
-                index + 1
-              }`}
+              key={++paragraphKey.current}
+              uniqueIndex={index}
               content={paragraph}
               pageIndex={selectedPageIndex}
               paragraphIndex={index}
             />
-          ));
-
-    setParagraph(paragraphContents);
-  }, [paragraphList, selectedPageIndex]);
+          ))
+        );
+  }, [paragraphContents, selectedPageIndex]);
 
   return (
     <div className="grid gap-3 md:text-lg sm:text-sm text-sm">
-      <div className="grid p-6 gap-3">{paragraph}</div>
+      <div className="grid p-6 gap-3">{paragraphItems}</div>
       <div className="flex gap-2 justify-center">
         <Button
           content="문단 추가"
           onClick={() => {
-            if (paragraph.length >= 6) return;
-            setParagraph(
-              paragraph.concat(
-                <ParagraphItem
-                  key={`Write/LetterPanel/pageIndex:${selectedPageIndex}&paragraphIndex:${paragraph.length}`}
-                  pageIndex={selectedPageIndex}
-                  paragraphIndex={paragraph.length}
-                  onKeyDown={(e) => {
-                    // if(e.key==="Backspace")
-                  }}
-                />
-              )
-            );
+            if (paragraphContents[selectedPageIndex].length >= 6) return;
+
+            paragraphContents[selectedPageIndex].push("");
+            useLetterStore.setState({
+              paragraphContents: [...paragraphContents],
+            });
           }}
         />
         <Button
@@ -113,12 +115,12 @@ function Write() {
 
   const bodyAnimation = useAnimation();
 
-  const { paragraphList, name } = useLetterStore();
+  const { paragraphContents, name } = useLetterStore();
 
   const [pages, setPages] = useState<ReactElement[]>(
-    paragraphList.length === 0
+    paragraphContents.length === 0
       ? [<PageItem key={`Write/Write/pageIndex:0`} index={0} />]
-      : paragraphList.map((data, index) => {
+      : paragraphContents.map((data, index) => {
           return (
             <PageItem
               key={`Write/Write/pageIndex:${index}`}
@@ -150,13 +152,13 @@ function Write() {
             setPages(
               pages.concat([
                 <PageItem
-                  key={`Write/Write/pageIndex:${paragraphList.length}`}
-                  index={paragraphList.length}
+                  key={`Write/Write/pageIndex:${paragraphContents.length}`}
+                  index={paragraphContents.length}
                 />,
               ])
             );
 
-            paragraphList.push([]);
+            paragraphContents.push([]);
           }}
           className="md:w-[70px] md:h-fit sm:w-9 sm:h-[70px] w-9 h-[70px] text-2xl place-self-center bg-slate-500 text-white rounded-full"
         >
