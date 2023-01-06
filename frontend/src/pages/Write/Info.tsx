@@ -27,6 +27,7 @@ const Information = (props: { animate: AnimationControls }) => {
   function Submit() {
     if (name !== "") {
       props.animate.start({ opacity: 0 }).then(() => {
+        useLetterStore.setState({ isPreview: true });
         navigate(`/write/`);
       });
     } else {
@@ -96,7 +97,6 @@ const Information = (props: { animate: AnimationControls }) => {
         initial={{ opacity: 0, visibility: "collapse", top: 10 }}
         onClick={() => {
           Submit();
-          useLetterStore.setState({ isPreview: true });
         }}
       >
         확인

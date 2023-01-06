@@ -131,49 +131,61 @@ function Read() {
           모든 편지 내용을 읽으셨습니다
         </span>
         <div className="flex flex-col gap-4">
-          <div className="flex gap-4">
-            {isPreview ? (
-              <div>
-                <Button
-                  content={"계속 작성"}
-                  background="bg-emerald-500"
-                  onClick={() => {
-                    bodyAnimation.start({ opacity: 0 }).then(() => {
-                      navigate("../Write");
-                    });
-                  }}
-                />
+          <div>
+            <div className="flex gap-4 justify-center">
+              <Button
+                isVisible={isPreview}
+                content={"계속 작성"}
+                background="bg-emerald-500"
+                onClick={() => {
+                  bodyAnimation.start({ opacity: 0 }).then(() => {
+                    navigate("../Write");
+                  });
+                }}
+              />
 
-                <Button
-                  content={"작성 완료"}
-                  background="bg-rose-500"
-                  onClick={() => {
-                    axios
-                      .post("http://192.168.1.100:3001/letter/send", {
-                        name: name,
-                        data: paragraphContents,
-                      })
-                      .then((body) => {
-                        console.log(body);
-                      });
-                  }}
-                />
-              </div>
-            ) : (
-              <></>
-            )}
+              <Button
+                isVisible={isPreview}
+                content={"작성 완료"}
+                background="bg-rose-500"
+                onClick={() => {
+                  axios
+                    .post("http://192.168.1.100:3001/letter/send", {
+                      name: name,
+                      data: paragraphContents,
+                    })
+                    .then((body) => {
+                      console.log(body);
+                    });
+                }}
+              />
+            </div>
           </div>
-          <Button
-            content={"다시 읽기"}
-            background="bg-sky-500"
-            onClick={() => {
-              exitAnimation.start({ opacity: 0 }).then(() => {
-                exitAnimation.set({ display: "none" });
-                nameAnimation.set({ opacity: 0, top: -10 });
-                init();
-              });
-            }}
-          />
+          <div>
+            <div className="flex gap-4 justify-center">
+              <Button
+                content={"다시 읽기"}
+                background="bg-sky-500"
+                onClick={() => {
+                  exitAnimation.start({ opacity: 0 }).then(() => {
+                    exitAnimation.set({ display: "none" });
+                    nameAnimation.set({ opacity: 0, top: -10 });
+                    init();
+                  });
+                }}
+              />
+              <Button
+                isVisible={!isPreview}
+                content={"읽기 종료"}
+                background="bg-rose-500"
+                onClick={() => {
+                  exitAnimation.start({ opacity: 0 }).then(() => {
+                    navigate("/");
+                  });
+                }}
+              />
+            </div>
+          </div>
         </div>
       </motion.div>
     </motion.div>
