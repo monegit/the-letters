@@ -12,7 +12,7 @@ function Read() {
   const exitAnimation = useAnimation();
   const bodyAnimation = useAnimation();
 
-  const { paragraphContents, name, isPreview } = useLetterStore();
+  const { paragraphContents, name, isPreview, effectData } = useLetterStore();
 
   const [enable, setEnable] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -150,9 +150,33 @@ function Read() {
                 background="bg-rose-500"
                 onClick={() => {
                   axios
-                    .post("http://192.168.1.100:3001/letter/send", {
+                    .post("http://localhost:3001/letter/send", {
                       name: name,
-                      data: paragraphContents,
+                      data: paragraphContents.map((pageContent, pageIndex) => {
+                        return pageContent.map((_, index) => {
+                          return {
+                            paragraph: paragraphContents[pageIndex][index],
+                            effect: {
+                              effectContent: effectData[pageIndex][index][0],
+                              effectType: effectData[pageIndex][index][1],
+                            },
+                          };
+                        });
+                      })[0],
+
+                      // data: {
+                      //   paragraph: paragraphContents.map((paragraph) => {
+                      //     return paragraph;
+                      //   }),
+                      //   effect: effectData.map((effect) => {
+                      //     return effect;
+                      //   }),
+                      // },
+                      // paragraphContents.map((paragraph) => {
+                      //   return effectData.map((effect) => {
+                      //     return [paragraph, effect];
+                      //   });
+                      // }),
                     })
                     .then((body) => {
                       console.log(body);

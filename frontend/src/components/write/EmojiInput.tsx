@@ -1,6 +1,9 @@
 import React from "react";
+import { useLetterStore } from "../../store/write/letter";
 
-function EmojiInput() {
+function EmojiInput(props: { pageIndex: number; paragraphIndex: number }) {
+  const { effectData } = useLetterStore();
+
   return (
     <input
       placeholder="🫥"
@@ -11,7 +14,11 @@ function EmojiInput() {
         const emojiRegex = /\p{Emoji}/u;
 
         if (!emojiRegex.test(value.target.value)) value.target.value = "";
+        effectData[props.pageIndex][props.paragraphIndex] = [
+          value.target.value,
+        ];
       }}
+      defaultValue={effectData[props.pageIndex][props.paragraphIndex]}
     ></input>
   );
 }

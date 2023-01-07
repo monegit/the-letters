@@ -67,7 +67,10 @@ const Input = (props: ParagraphProps) => {
         animate={optionAnimation}
         initial={{ opacity: 0, display: "hidden" }}
       >
-        <EmojiInput />
+        <EmojiInput
+          pageIndex={selectedPageIndex}
+          paragraphIndex={props.index}
+        />
       </motion.div>
       <motion.input
         className="outline-none resize-none text-center p-2 text-clip rounded-xl"

@@ -11,7 +11,6 @@ import Modal from "../../components/Modal";
 import WriteExit from "../../components/modal/WriteExit";
 import { useModalStore } from "../../store/modal/modal";
 
-// TODO: key error 잡기
 const ParagraphItem = (props: {
   content?: string;
   pageIndex: number;
@@ -37,7 +36,7 @@ const ParagraphItem = (props: {
 
 const LetterPanel = (props: { animation: AnimationControls }) => {
   const { selectedPageIndex } = usePageStore();
-  const { paragraphContents } = useLetterStore();
+  const { paragraphContents, effectData } = useLetterStore();
 
   const navigate = useNavigate();
   const paragraphKey = useRef(0);
@@ -79,6 +78,7 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
             paragraphContents[selectedPageIndex].push("");
             useLetterStore.setState({
               paragraphContents: [...paragraphContents],
+              effectData: [...effectData],
             });
           }}
         />
@@ -96,6 +96,7 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
           content="작성 중단"
           onClick={() => {
             useModalStore.setState({ isVisible: true });
+            useLetterStore.setState({ isPreview: false });
           }}
         />
       </div>
