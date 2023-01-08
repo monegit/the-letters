@@ -106,18 +106,19 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
 
 function Write() {
   const navigate = useNavigate();
+  const pageKey = useRef(0);
 
   const bodyAnimation = useAnimation();
 
-  const { paragraphContents, name } = useLetterStore();
+  const { paragraphContents, name, effectData } = useLetterStore();
 
   const [pages, setPages] = useState<ReactElement[]>(
     paragraphContents.length === 0
-      ? [<PageItem key={`Write/Write/pageIndex:0`} index={0} />]
+      ? [<PageItem key={`Write/Write/pageIndex:0`} index={pageKey.current} />]
       : paragraphContents.map((data, index) => {
           return (
             <PageItem
-              key={`Write/Write/pageIndex:${index}`}
+              key={`Write/Write/pageIndex:${++pageKey.current}`}
               index={index}
               paragraphs={data}
             />
@@ -153,6 +154,7 @@ function Write() {
             );
 
             paragraphContents.push([]);
+            effectData.push([]);
           }}
           className="md:w-[70px] md:h-fit sm:w-9 sm:h-[70px] w-9 h-[70px] text-2xl place-self-center bg-slate-500 text-white rounded-full"
         >

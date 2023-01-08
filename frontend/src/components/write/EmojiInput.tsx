@@ -1,25 +1,40 @@
-import React from "react";
+import { useState } from "react";
 import { useLetterStore } from "../../store/write/letter";
+import EmojiActionTemplate from "./EmojiActionTemplate";
 
 function EmojiInput(props: { pageIndex: number; paragraphIndex: number }) {
   const { effectData } = useLetterStore();
+  const [isTemplateVisible, setTemplateVisible] = useState(false);
 
   return (
-    <input
-      placeholder="🫥"
-      maxLength={1}
-      className="bg-stone-100 w-8 h-8 text-sm p-1 text-center rounded-md border border-stone-300"
-      onChange={(value) => {
-        // FIXME: 숫자 입력 불가능하게 막기
-        const emojiRegex = /\p{Emoji}/u;
+    <div>
+      <input
+        placeholder="🫥"
+        maxLength={1}
+        className="bg-stone-100 w-8 h-8 text-sm p-1 text-center rounded-md border border-stone-300 outline-none"
+        onChange={(value) => {
+          const emojiRegex = /\p{Emoji}/u;
+          const decimalRegex = /[0-9]$/;
 
-        if (!emojiRegex.test(value.target.value)) value.target.value = "";
-        effectData[props.pageIndex][props.paragraphIndex] = [
-          value.target.value,
-        ];
-      }}
-      defaultValue={effectData[props.pageIndex][props.paragraphIndex]}
-    ></input>
+          if (
+            !emojiRegex.test(value.target.value) ||
+            decimalRegex.test(value.target.value)
+          )
+            value.target.value = "";
+          effectData[props.pageIndex][props.paragraphIndex] = [
+            value.target.value,
+          ];
+        }}
+        defaultValue={effectData[props.pageIndex][props.paragraphIndex] ?? ""}
+        onFocus={() => {
+          setTemplateVisible(true);
+        }}
+        onBlur={() => {
+          setTemplateVisible(false);
+        }}
+      />
+      <EmojiActionTemplate isVisible={isTemplateVisible} />
+    </div>
   );
 }
 
