@@ -1,4 +1,4 @@
-import { ReactElement, useRef, useState } from "react";
+import { ReactElement, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimationControls, motion, useAnimation } from "framer-motion";
 import Paragraph from "../../components/write/ParagraphItem";
@@ -16,7 +16,6 @@ const ParagraphItem = (props: {
   pageIndex: number;
   paragraphIndex: number;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-  uniqueIndex: number;
 }) => {
   const { paragraphContents } = useLetterStore();
 
@@ -29,7 +28,6 @@ const ParagraphItem = (props: {
       }}
       onKeyDown={props.onKeyDown}
       index={props.paragraphIndex}
-      uniqueIndex={props.uniqueIndex}
     />
   );
 };
@@ -48,7 +46,6 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
       ? setParagraphItems([
           <ParagraphItem
             key={++paragraphKey.current}
-            uniqueIndex={0}
             content={""}
             pageIndex={selectedPageIndex}
             paragraphIndex={0}
@@ -58,7 +55,6 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
           paragraphContents[selectedPageIndex].map((paragraph, index) => (
             <ParagraphItem
               key={++paragraphKey.current}
-              uniqueIndex={index}
               content={paragraph}
               pageIndex={selectedPageIndex}
               paragraphIndex={index}
@@ -75,7 +71,6 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
           content="문단 추가"
           onClick={() => {
             if (paragraphContents[selectedPageIndex].length >= 6) return;
-
             paragraphContents[selectedPageIndex].push("");
             useLetterStore.setState({
               paragraphContents: [...paragraphContents],

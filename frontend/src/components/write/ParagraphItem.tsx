@@ -8,7 +8,6 @@ import EmojiInput from "./EmojiInput";
 interface ParagraphProps {
   content?: string;
   index: number;
-  uniqueIndex: number;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }
@@ -109,7 +108,6 @@ const ParagraphItem = (props: ParagraphProps) => {
         content={props.content ?? ""}
         onChange={props.onChange}
         index={props.index}
-        uniqueIndex={props.uniqueIndex}
       />
     </div>
   );
