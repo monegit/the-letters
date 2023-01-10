@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useLayoutEffect } from "react";
 import { useState } from "react";
 import { useLetterStore } from "../../store/write/letter";
 import { usePageStore } from "../../store/write/page";
@@ -15,16 +15,7 @@ const PageParagraphItem = (props: {
 function PageItem(props: { index: number; paragraphs?: string[] }) {
   const { paragraphContents } = useLetterStore();
   const { selectedPageIndex } = usePageStore();
-  const [paragraphItemList, setParagraphItemList] = useState<ReactElement[]>(
-    paragraphContents[props.index]?.map((data, index) => (
-      <PageParagraphItem
-        key={index}
-        paragraph={data}
-        pageIndex={props.index}
-        paragraphIndex={index}
-      />
-    ))
-  );
+  const [paragraphItemList, setParagraphItemList] = useState<ReactElement[]>();
 
   useEffect(() => {
     // keydown 할때마다 상태관리 정보 갱신
@@ -43,10 +34,10 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
           );
     }
 
-    document.addEventListener("keydown", handlekeydownEvent);
+    document.addEventListener("keyup", handlekeydownEvent);
 
     return () => {
-      document.removeEventListener("keydown", handlekeydownEvent);
+      document.removeEventListener("keyup", handlekeydownEvent);
     };
   }, [paragraphContents, props.index]);
 
