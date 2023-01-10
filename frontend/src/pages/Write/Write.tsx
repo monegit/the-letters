@@ -47,8 +47,9 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
     paragraphContents[selectedPageIndex].length === 0
       ? setParagraphItems([
           <ParagraphItem
-            key={0}
+            key={++paragraphKey.current}
             uniqueIndex={0}
+            content={""}
             pageIndex={selectedPageIndex}
             paragraphIndex={0}
           />,
@@ -114,7 +115,7 @@ function Write() {
 
   const [pages, setPages] = useState<ReactElement[]>(
     paragraphContents.length === 0
-      ? [<PageItem key={`Write/Write/pageIndex:0`} index={pageKey.current} />]
+      ? [<PageItem key={`Write/Write/pageIndex:0`} index={0} />]
       : paragraphContents.map((data, index) => {
           return (
             <PageItem
@@ -147,7 +148,7 @@ function Write() {
             setPages(
               pages.concat([
                 <PageItem
-                  key={`Write/Write/pageIndex:${paragraphContents.length}`}
+                  key={`Write/Write/pageIndex:${++pageKey.current}`}
                   index={paragraphContents.length}
                 />,
               ])
