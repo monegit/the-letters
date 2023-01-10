@@ -1,14 +1,22 @@
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useLetterStore } from "../../store/write/letter";
 import EmojiActionTemplate from "./EmojiActionTemplate";
 
-function EmojiInput(props: { pageIndex: number; paragraphIndex: number }) {
+interface Props {
+  pageIndex: number;
+  paragraphIndex: number;
+}
+
+function EmojiInput(props: Props) {
   const { effectData } = useLetterStore();
   const [isTemplateVisible, setTemplateVisible] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div>
       <input
+        name="emojiInput"
+        ref={inputRef}
         placeholder="🫥"
         maxLength={1}
         className="bg-stone-100 w-8 h-8 text-sm p-1 text-center rounded-md border border-stone-300 outline-none"
@@ -33,7 +41,11 @@ function EmojiInput(props: { pageIndex: number; paragraphIndex: number }) {
           setTemplateVisible(false);
         }}
       />
-      <EmojiActionTemplate isVisible={isTemplateVisible} />
+      <EmojiActionTemplate
+        isFocus={inputRef}
+        key={props.paragraphIndex}
+        isVisible={isTemplateVisible}
+      />
     </div>
   );
 }

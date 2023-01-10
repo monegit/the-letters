@@ -1,5 +1,5 @@
 import { motion, useAnimation } from "framer-motion";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useLetterStore } from "../../store/write/letter";
 import { usePageStore } from "../../store/write/page";
 import EdgeButton from "./EdgeButton";
@@ -72,6 +72,7 @@ const Input = (props: ParagraphProps) => {
         />
       </motion.div>
       <motion.input
+        name="paragraphInput"
         className="outline-none resize-none text-center p-2 text-clip rounded-xl"
         autoFocus
         animate={focusAnimation}
@@ -94,7 +95,6 @@ const Input = (props: ParagraphProps) => {
             useLetterStore.setState({
               paragraphContents: [...paragraphContents],
             });
-            console.log(props.index);
           }}
         />
       </motion.div>
