@@ -1,5 +1,5 @@
 import { motion, useAnimation } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { useLetterStore } from "../../store/write/letter";
 import { usePageStore } from "../../store/write/page";
 import EdgeButton from "./EdgeButton";

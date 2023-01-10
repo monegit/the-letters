@@ -11,95 +11,6 @@ import Modal from "../../components/Modal";
 import WriteExit from "../../components/modal/WriteExit";
 import { useModalStore } from "../../store/modal/modal";
 
-const ParagraphItem = (props: {
-  content?: string;
-  pageIndex: number;
-  paragraphIndex: number;
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-}) => {
-  const { paragraphContents } = useLetterStore();
-
-  return (
-    <Paragraph
-      content={props.content}
-      onChange={(e) => {
-        paragraphContents[props.pageIndex][props.paragraphIndex] =
-          e.target.value;
-      }}
-      onKeyDown={props.onKeyDown}
-      index={props.paragraphIndex}
-    />
-  );
-};
-
-const LetterPanel = (props: { animation: AnimationControls }) => {
-  const { selectedPageIndex } = usePageStore();
-  const { paragraphContents, effectData } = useLetterStore();
-
-  const navigate = useNavigate();
-  const paragraphKey = useRef(0);
-  const [paragraphItems, setParagraphItems] = useState<ReactElement[]>([]);
-
-  useEffect(() => {
-    // 페이지 문단 초기화
-    paragraphContents[selectedPageIndex].length === 0
-      ? setParagraphItems([
-          <ParagraphItem
-            key={++paragraphKey.current}
-            content={""}
-            pageIndex={selectedPageIndex}
-            paragraphIndex={0}
-          />,
-        ])
-      : setParagraphItems(
-          paragraphContents[selectedPageIndex].map((paragraph, index) => (
-            <ParagraphItem
-              key={++paragraphKey.current}
-              content={paragraph}
-              pageIndex={selectedPageIndex}
-              paragraphIndex={index}
-            />
-          ))
-        );
-  }, [paragraphContents, selectedPageIndex]);
-
-  return (
-    <div className="grid gap-3 md:text-lg sm:text-sm text-sm">
-      <div className="grid p-6 gap-3">{paragraphItems}</div>
-      <div className="flex gap-2 justify-center">
-        <Button
-          content="문단 추가"
-          onClick={() => {
-            if (paragraphContents[selectedPageIndex].length >= 6) return;
-            paragraphContents[selectedPageIndex].push("");
-            useLetterStore.setState({
-              paragraphContents: [...paragraphContents],
-              effectData: [...effectData],
-            });
-          }}
-        />
-        <Button
-          content="편지 점검"
-          background="bg-emerald-500"
-          onClick={() => {
-            props.animation.start({ opacity: 0 }).then(() => {
-              navigate("../read");
-            });
-          }}
-        />
-        <Button
-          background="bg-rose-500"
-          content="작성 중단"
-          onClick={() => {
-            useModalStore.setState({ isVisible: true });
-            useLetterStore.setState({ isPreview: false });
-          }}
-        />
-      </div>
-    </div>
-  );
-};
-
 function Write() {
   const navigate = useNavigate();
   const pageKey = useRef(0);
@@ -169,5 +80,103 @@ function Write() {
     </motion.div>
   );
 }
+
+const ParagraphItem = (props: {
+  content?: string;
+  pageIndex: number;
+  paragraphIndex: number;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+}) => {
+  const { paragraphContents } = useLetterStore();
+
+  return (
+    <Paragraph
+      content={props.content}
+      onChange={(e) => {
+        paragraphContents[props.pageIndex][props.paragraphIndex] =
+          e.target.value;
+      }}
+      onKeyDown={props.onKeyDown}
+      index={props.paragraphIndex}
+    />
+  );
+};
+
+const LetterPanel = (props: { animation: AnimationControls }) => {
+  const { selectedPageIndex } = usePageStore();
+  const { paragraphContents, effectData } = useLetterStore();
+
+  const navigate = useNavigate();
+  const paragraphKey = useRef(0);
+  const [paragraphItems, setParagraphItems] = useState<ReactElement[]>([]);
+
+  useEffect(() => {
+    // 페이지 문단 초기화
+    paragraphContents[selectedPageIndex].length === 0
+      ? setParagraphItems([
+          <ParagraphItem
+            key={++paragraphKey.current}
+            content={""}
+            pageIndex={selectedPageIndex}
+            paragraphIndex={0}
+          />,
+        ])
+      : setParagraphItems(
+          paragraphContents[selectedPageIndex].map((paragraph, index) => (
+            <ParagraphItem
+              key={++paragraphKey.current}
+              content={paragraph}
+              pageIndex={selectedPageIndex}
+              paragraphIndex={index}
+            />
+          ))
+        );
+
+    if (paragraphContents[selectedPageIndex].length === 0) {
+      paragraphContents[selectedPageIndex].push("");
+      useLetterStore.setState({
+        paragraphContents: [...paragraphContents],
+        effectData: [...effectData],
+      });
+    }
+  }, [effectData, paragraphContents, selectedPageIndex]);
+
+  return (
+    <div className="grid gap-3 md:text-lg sm:text-sm text-sm">
+      <div className="grid p-6 gap-3">{paragraphItems}</div>
+      <div className="flex gap-2 justify-center">
+        <Button
+          content="문단 추가"
+          onClick={() => {
+            if (paragraphContents[selectedPageIndex].length >= 6) return;
+
+            paragraphContents[selectedPageIndex].push("");
+            useLetterStore.setState({
+              paragraphContents: [...paragraphContents],
+              effectData: [...effectData],
+            });
+          }}
+        />
+        <Button
+          content="편지 점검"
+          background="bg-emerald-500"
+          onClick={() => {
+            props.animation.start({ opacity: 0 }).then(() => {
+              navigate("../read");
+            });
+          }}
+        />
+        <Button
+          background="bg-rose-500"
+          content="작성 중단"
+          onClick={() => {
+            useModalStore.setState({ isVisible: true });
+            useLetterStore.setState({ isPreview: false });
+          }}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default Write;
