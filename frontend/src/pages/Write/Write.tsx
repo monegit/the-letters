@@ -46,8 +46,8 @@ function Write() {
       initial={{ opacity: 0 }}
       onViewportEnter={() => bodyAnimation.start({ opacity: 1 })}
     >
-      <div className="flex md:flex-col sm:flex-row flex-row gap-2 md:ml-2 md:my-2 sm:mb-2 sm:mx-2 mb-2 mx-2 bg-slate-300 p-4 rounded-md">
-        {pages}
+      <div className="flex md:flex-col sm:flex-row flex-row gap-2 md:ml-2 md:my-2 sm:mb-2 sm:mx-2 mb-2 mx-2 bg-slate-300 rounded-md">
+        <div className="grid gap-2 overflow-y-scroll p-4">{pages}</div>
 
         <button
           onClick={() => {
@@ -63,11 +63,12 @@ function Write() {
             paragraphContents.push([]);
             effectData.push([]);
           }}
-          className="md:w-[70px] md:h-fit sm:w-9 sm:h-[70px] w-9 h-[70px] text-2xl place-self-center bg-slate-500 text-white rounded-full"
+          className="md:w-[70px] md:h-fit sm:w-9 sm:h-[70px] w-9 h-[70px] text-2xl place-self-center bg-slate-500 text-white rounded-full select-none"
         >
           +
         </button>
       </div>
+
       <Modal content={<WriteExit bodyAnimation={bodyAnimation} />} />
       <div className="flex w-screen flex-col items-center h-screen">
         <div className="flex mt-5 px-3 border-b-2 border-slate-400 w-fit">
