@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ReactElement, useEffect, useLayoutEffect, useRef } from "react";
+import { ReactElement, useEffect } from "react";
 import { useState } from "react";
 import { useLetterStore } from "../../store/write/letter";
 import { usePageStore } from "../../store/write/page";
@@ -43,10 +43,10 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
           );
     }
 
-    document.addEventListener("keyup", handlekeydownEvent);
+    document.addEventListener("keydown", handlekeydownEvent);
 
     return () => {
-      document.removeEventListener("keyup", handlekeydownEvent);
+      document.removeEventListener("keydown", handlekeydownEvent);
     };
   }, [paragraphContents, props.index]);
 
