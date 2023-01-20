@@ -150,8 +150,6 @@ function Read() {
                 background="bg-rose-500"
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log(paragraphContents);
-                  console.log(effectData);
                   axios
                     .post("http://localhost:3001/letter/send", {
                       name: name,
@@ -169,20 +167,6 @@ function Read() {
                           };
                         });
                       })[0],
-
-                      // data: {
-                      //   paragraph: paragraphContents.map((paragraph) => {
-                      //     return paragraph;
-                      //   }),
-                      //   effect: effectData.map((effect) => {
-                      //     return effect;
-                      //   }),
-                      // },
-                      // paragraphContents.map((paragraph) => {
-                      //   return effectData.map((effect) => {
-                      //     return [paragraph, effect];
-                      //   });
-                      // }),
                     })
                     .then((body) => {
                       console.log(body);

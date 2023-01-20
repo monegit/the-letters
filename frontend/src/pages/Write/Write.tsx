@@ -150,7 +150,6 @@ const LetterPanel = (props: { animation: AnimationControls }) => {
           content="문단 추가"
           onClick={() => {
             if (paragraphContents[selectedPageIndex].length >= 6) return;
-            console.log(effectData);
 
             paragraphContents[selectedPageIndex].push("");
             effectData[selectedPageIndex].push([]);
