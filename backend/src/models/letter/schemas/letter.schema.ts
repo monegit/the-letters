@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-export type WriteDocument = HydratedDocument<Write>;
+export type LetterDocument = HydratedDocument<Letter>;
 
 @Schema()
-export class Write {
+export class Letter {
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
   writeAt: Date;
 
@@ -15,7 +15,7 @@ export class Write {
   password: string;
 
   @Prop()
-  data: string[][];
+  data: string[][][];
 }
 
-export const WriteSchema = SchemaFactory.createForClass(Write);
+export const letterSchema = SchemaFactory.createForClass(Letter);

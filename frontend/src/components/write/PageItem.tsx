@@ -34,6 +34,8 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
           );
     }
 
+    handlekeydownEvent();
+
     document.addEventListener("keyup", handlekeydownEvent);
 
     return () => {

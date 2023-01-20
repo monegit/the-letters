@@ -5,7 +5,7 @@ interface ButtonProps {
   isVisible?: boolean;
   background?: string;
   fontColor?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   content: string;
 }
 

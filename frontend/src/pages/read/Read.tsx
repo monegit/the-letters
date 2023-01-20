@@ -148,17 +148,23 @@ function Read() {
                 isVisible={isPreview}
                 content={"작성 완료"}
                 background="bg-rose-500"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log(paragraphContents);
+                  console.log(effectData);
                   axios
                     .post("http://localhost:3001/letter/send", {
                       name: name,
                       data: paragraphContents.map((pageContent, pageIndex) => {
-                        return pageContent.map((_, index) => {
+                        return pageContent.map((_, paragraphIndex) => {
                           return {
-                            paragraph: paragraphContents[pageIndex][index],
+                            paragraph:
+                              paragraphContents[pageIndex][paragraphIndex],
                             effect: {
-                              effectContent: effectData[pageIndex][index][0],
-                              effectType: effectData[pageIndex][index][1],
+                              effectContent:
+                                effectData[pageIndex][paragraphIndex][0],
+                              effectType:
+                                effectData[pageIndex][paragraphIndex][1],
                             },
                           };
                         });
