@@ -1,12 +1,15 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { AnimationTypes } from "../types";
 
 interface ButtonProps {
   isVisible?: boolean;
   background?: string;
   fontColor?: string;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   content: string;
+
+  animate?: AnimationTypes;
 }
 
 function Button(props: ButtonProps) {

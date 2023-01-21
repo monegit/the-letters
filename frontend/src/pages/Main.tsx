@@ -22,7 +22,7 @@ const Table = (props: { bodyAnimation: AnimationControls }) => {
       <div
         onClick={() => {
           props.bodyAnimation.start({ opacity: 0 }).then(() => {
-            return navigate("/info");
+            return navigate("/writeInfo");
           });
         }}
       >
@@ -30,7 +30,7 @@ const Table = (props: { bodyAnimation: AnimationControls }) => {
       </div>
       <div
         onClick={() => {
-          return navigate("/info");
+          return navigate("/readInfo");
         }}
       >
         <Button content="편지 읽기" icon={"✉️"} />

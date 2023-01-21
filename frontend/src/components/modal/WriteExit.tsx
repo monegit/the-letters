@@ -2,7 +2,7 @@ import { AnimationControls } from "framer-motion";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useModalStore } from "../../store/modal/modal";
-import Button from "../Button";
+import Button from "../common/Button";
 
 function WriteExit(props: { bodyAnimation: AnimationControls }) {
   const navigate = useNavigate();

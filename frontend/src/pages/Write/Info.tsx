@@ -7,7 +7,6 @@ const Information = (props: { animate: AnimationControls }) => {
   const inputAnimation = useAnimation();
   const buttonAnimation = useAnimation();
   const navigate = useNavigate();
-  // const [name, setName] = useState("");
   const { name } = useLetterStore();
 
   const examNameList = [
@@ -69,13 +68,13 @@ const Information = (props: { animate: AnimationControls }) => {
           });
       }}
     >
-      <motion.div
+      <motion.span
         className="relative md:text-2xl text-center sm:text-base text-base font-bold"
         animate={titleAnimation}
         initial={{ opacity: 0, visibility: "collapse", top: 10 }}
       >
         보내고자 하는 사람의 이름 혹은 애칭을 입력해주세요
-      </motion.div>
+      </motion.span>
       <motion.input
         className="relative mx-10 bg-slate-100 text-center md:text-lg sm:text-sm text-sm font-bold outline-none p-2 rounded-xl"
         layout
@@ -90,7 +89,8 @@ const Information = (props: { animate: AnimationControls }) => {
         onKeyDown={(key) => {
           if (key.key === "Enter") Submit();
         }}
-      ></motion.input>
+      />
+
       <motion.button
         className="relative w-fit justify-self-center md:text-lg sm:text-sm text-sm bg-slate-200 p-2 px-8 rounded-xl font-bold"
         animate={buttonAnimation}
@@ -105,7 +105,7 @@ const Information = (props: { animate: AnimationControls }) => {
   );
 };
 
-function InfoForm() {
+function Info() {
   const bodyAnimation = useAnimation();
   return (
     <motion.div
@@ -117,4 +117,4 @@ function InfoForm() {
   );
 }
 
-export default InfoForm;
+export default Info;

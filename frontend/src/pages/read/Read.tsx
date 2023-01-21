@@ -2,7 +2,7 @@ import { ReactElement, useState } from "react";
 import { useLetterStore } from "../../store/write/letter";
 import { motion, useAnimation } from "framer-motion";
 import { ParagraphItem } from "../../components/read/ParagraphItem";
-import Button from "../../components/Button";
+import Button from "../../components/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

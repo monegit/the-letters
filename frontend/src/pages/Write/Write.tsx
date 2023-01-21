@@ -6,7 +6,7 @@ import PageItem from "../../components/write/PageItem";
 import { useEffect } from "react";
 import { useLetterStore } from "../../store/write/letter";
 import { usePageStore } from "../../store/write/page";
-import Button from "../../components/Button";
+import Button from "../../components/common/Button";
 import Modal from "../../components/Modal";
 import WriteExit from "../../components/modal/WriteExit";
 import { useModalStore } from "../../store/modal/modal";

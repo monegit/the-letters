@@ -1,5 +1,14 @@
-import { AnimationControls, motion, useAnimation } from "framer-motion";
+import axios from "axios";
+import {
+  animate,
+  AnimationControls,
+  motion,
+  useAnimation,
+} from "framer-motion";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/common/Button";
+import Input from "../../components/common/Input";
 import { useLetterStore } from "../../store/write/letter";
 
 const Information = (props: { animate: AnimationControls }) => {
@@ -7,28 +16,18 @@ const Information = (props: { animate: AnimationControls }) => {
   const inputAnimation = useAnimation();
   const buttonAnimation = useAnimation();
   const navigate = useNavigate();
-  // const [name, setName] = useState("");
-  const { name } = useLetterStore();
-
-  const examNameList = [
-    "내 사랑",
-    "어머니",
-    "아버지",
-    "선생님",
-    "단짝친구",
-    "아가",
-    "공주",
-    "사랑하는 딸",
-    "사랑하는 아들",
-    "홍길동",
-    "박종원",
-  ];
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
 
   function Submit() {
     if (name !== "") {
       props.animate.start({ opacity: 0 }).then(() => {
         useLetterStore.setState({ isPreview: true });
-        navigate(`/write/`);
+        axios.get(
+          `http://localhost:3001/letter/receive?name=${name}&password=${password}`
+        );
+        // .then((data) => useLetterStore.setState({}) (data.data.data));
+        // navigate(`/read/`);
       });
     } else {
       inputAnimation.set({ left: 10 });
@@ -76,36 +75,48 @@ const Information = (props: { animate: AnimationControls }) => {
       >
         보내고자 하는 사람의 이름 혹은 애칭을 입력해주세요
       </motion.div>
-      <motion.input
-        className="relative mx-10 bg-slate-100 text-center md:text-lg sm:text-sm text-sm font-bold outline-none p-2 rounded-xl"
-        layout
-        placeholder={
-          examNameList[Math.floor(Math.random() * examNameList.length)]
-        }
+      <Input
+        placeholder={"이름"}
         onChange={(value) => {
-          useLetterStore.setState({ name: value.target.value });
+          setName(value.target.value);
         }}
-        animate={inputAnimation}
-        initial={{ left: 0, opacity: 0, visibility: "collapse", top: 10 }}
+        animate={{
+          animate: inputAnimation,
+          initial: { left: 0, opacity: 0, visibility: "collapse", top: 10 },
+        }}
         onKeyDown={(key) => {
           if (key.key === "Enter") Submit();
         }}
-      ></motion.input>
-      <motion.button
-        className="relative w-fit justify-self-center md:text-lg sm:text-sm text-sm bg-slate-200 p-2 px-8 rounded-xl font-bold"
-        animate={buttonAnimation}
-        initial={{ opacity: 0, visibility: "collapse", top: 10 }}
+      />
+      <Input
+        placeholder={"비밀번호"}
+        password
+        onChange={(value) => {
+          setPassword(value.target.value);
+        }}
+        animate={{
+          animate: inputAnimation,
+          initial: { left: 0, opacity: 0, visibility: "collapse", top: 10 },
+        }}
+        onKeyDown={(key) => {
+          if (key.key === "Enter") Submit();
+        }}
+      />
+      <Button
+        content={"확인"}
+        animate={{
+          animate: buttonAnimation,
+          initial: { opacity: 0, visibility: "collapse", top: 10 },
+        }}
         onClick={() => {
           Submit();
         }}
-      >
-        확인
-      </motion.button>
+      />
     </motion.div>
   );
 };
 
-function InfoForm() {
+function Info() {
   const bodyAnimation = useAnimation();
   return (
     <motion.div
@@ -117,4 +128,4 @@ function InfoForm() {
   );
 }
 
-export default InfoForm;
+export default Info;
