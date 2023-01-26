@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
-import { useLetterStore } from "../../store/write/letter";
+import { useLetterStore } from "../../store/letter/letter";
 
 const Information = (props: { animate: AnimationControls }) => {
   const titleAnimation = useAnimation();

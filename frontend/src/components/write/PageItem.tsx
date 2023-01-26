@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { ReactElement, useEffect, useLayoutEffect } from "react";
 import { useState } from "react";
-import { useLetterStore } from "../../store/write/letter";
-import { usePageStore } from "../../store/write/page";
+import { useLetterStore } from "../../store/letter/letter";
+import { usePageStore } from "../../store/letter/page";
 
 const PageParagraphItem = (props: {
   paragraph: string;

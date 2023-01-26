@@ -1,6 +1,6 @@
 import { AnimationControls, motion, useAnimation } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useLetterStore } from "../../store/write/letter";
+import { useLetterStore } from "../../store/letter/letter";
 
 const Information = (props: { animate: AnimationControls }) => {
   const titleAnimation = useAnimation();

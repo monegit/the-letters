@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react";
-import { useLetterStore } from "../../store/write/letter";
+import { useLetterStore } from "../../store/letter/letter";
 import { motion, useAnimation } from "framer-motion";
 import { ParagraphItem } from "../../components/read/ParagraphItem";
 import Button from "../../components/common/Button";

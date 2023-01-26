@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useLetterStore } from "../../store/write/letter";
+import { useLetterStore } from "../../store/letter/letter";
 import EmojiActionTemplate from "./EmojiActionTemplate";
 
 interface Props {

@@ -5,7 +5,7 @@ import OpenLetterItem from "../components/main/OpenLetterItem";
 import { motion } from "framer-motion";
 import Modal from "../components/Modal";
 import { useModalStore } from "../store/modal/modal";
-import { useLetterStore } from "../store/write/letter";
+import { useLetterStore } from "../store/letter/letter";
 import { useEffect } from "react";
 
 const Table = (props: { bodyAnimation: AnimationControls }) => {

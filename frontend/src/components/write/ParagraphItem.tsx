@@ -1,7 +1,7 @@
 import { motion, useAnimation } from "framer-motion";
 import React from "react";
-import { useLetterStore } from "../../store/write/letter";
-import { usePageStore } from "../../store/write/page";
+import { useLetterStore } from "../../store/letter/letter";
+import { usePageStore } from "../../store/letter/page";
 import EdgeButton from "./EdgeButton";
 import EmojiInput from "./EmojiInput";
 
