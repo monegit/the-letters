@@ -24,3 +24,24 @@ I liked to write notes, letters, blogs, everything. But among them, writing and 
 
 ----
 
+## Display Preview
+
+### Write
+<img
+	src="./images/1.png"
+  width="500"
+/>
+<img
+	src="./images/2.png"
+  width="500"
+/>
+
+### Read
+<img
+	src="./images/3.png"
+  width="500"
+/>
+<img
+	src="./images/4.png"
+  width="500"
+/>
