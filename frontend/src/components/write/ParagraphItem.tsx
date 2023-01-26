@@ -7,7 +7,9 @@ import EmojiInput from "./EmojiInput";
 
 interface ParagraphProps {
   content?: string;
-  index: number;
+  paragraphIndex: number;
+  pageIndex: number;
+
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }
@@ -44,7 +46,7 @@ const Input = (props: ParagraphProps) => {
           });
       }}
       onFocus={() => {
-        usePageStore.setState({ selectedParagraphIndex: props.index });
+        usePageStore.setState({ selectedParagraphIndex: props.paragraphIndex });
 
         templateAnimation.start({
           scale: 1.1,
@@ -67,7 +69,7 @@ const Input = (props: ParagraphProps) => {
       >
         <EmojiInput
           pageIndex={selectedPageIndex}
-          paragraphIndex={props.index}
+          paragraphIndex={props.paragraphIndex}
         />
       </motion.div>
       <motion.input
@@ -90,7 +92,10 @@ const Input = (props: ParagraphProps) => {
         <EdgeButton
           content={"✖︎"}
           onClick={() => {
-            paragraphContents[selectedPageIndex].splice(props.index, 1);
+            paragraphContents[selectedPageIndex].splice(
+              props.paragraphIndex,
+              1
+            );
             useLetterStore.setState({
               paragraphContents: [...paragraphContents],
             });
@@ -102,12 +107,15 @@ const Input = (props: ParagraphProps) => {
 };
 
 const ParagraphItem = (props: ParagraphProps) => {
+  const { paragraphContents } = useLetterStore();
+
   return (
     <div className="h-full">
       <Input
         content={props.content ?? ""}
         onChange={props.onChange}
-        index={props.index}
+        paragraphIndex={props.paragraphIndex}
+        pageIndex={0}
       />
     </div>
   );
