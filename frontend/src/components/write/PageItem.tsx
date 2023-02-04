@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ReactElement, useEffect, useLayoutEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import { useState } from "react";
 import { useLetterStore } from "../../store/letter/letter";
 import { usePageStore } from "../../store/letter/page";
@@ -12,26 +12,35 @@ const PageParagraphItem = (props: {
   return <div className={`text-center`}>{props.paragraph}</div>;
 };
 
-function PageItem(props: { index: number; paragraphs?: string[] }) {
-  const { paragraphContents } = useLetterStore();
+function PageItem(props: {
+  index: number;
+  paragraphs?: [
+    {
+      paragraph: string;
+      effect: {
+        effectContent: string;
+        effectType: string;
+      };
+    }
+  ];
+}) {
+  const { contents } = useLetterStore();
   const { selectedPageIndex } = usePageStore();
   const [paragraphItemList, setParagraphItemList] = useState<ReactElement[]>();
 
   useEffect(() => {
     // keydown 할때마다 상태관리 정보 갱신
     function handlekeydownEvent() {
-      paragraphContents[props.index].length === 0
-        ? setParagraphItemList([])
-        : setParagraphItemList(
-            paragraphContents[props.index]?.map((data, index) => (
-              <PageParagraphItem
-                key={index}
-                paragraph={data}
-                pageIndex={props.index}
-                paragraphIndex={index}
-              />
-            ))
-          );
+      setParagraphItemList(
+        contents[props.index]?.map((data, index) => (
+          <PageParagraphItem
+            key={index}
+            paragraph={data.paragraph}
+            pageIndex={props.index}
+            paragraphIndex={index}
+          />
+        ))
+      );
     }
 
     handlekeydownEvent();
@@ -41,7 +50,7 @@ function PageItem(props: { index: number; paragraphs?: string[] }) {
     return () => {
       document.removeEventListener("keyup", handlekeydownEvent);
     };
-  }, [paragraphContents, props.index]);
+  }, [contents, props.index]);
 
   return (
     <motion.div

@@ -14,25 +14,23 @@ function Write() {
 
   const bodyAnimation = useAnimation();
 
-  const { paragraphContents, name, effectData } = useLetterStore();
+  const { name, contents } = useLetterStore();
 
   const [pages, setPages] = useState<ReactElement[]>(
-    paragraphContents.length === 0
-      ? [<PageItem key={`Write/Write/pageIndex:0`} index={0} />]
-      : paragraphContents.map((data, index) => {
-          return (
-            <PageItem
-              key={`Write/Write/pageIndex:${++pageKey.current}`}
-              index={index}
-              paragraphs={data}
-            />
-          );
-        })
+    contents.map((data, index) => {
+      return (
+        <PageItem
+          key={`Write/Write/pageIndex:${++pageKey.current}`}
+          index={index}
+          paragraphs={data}
+        />
+      );
+    })
   );
 
   useEffect(() => {
     if (name === "") {
-      navigate("/info");
+      navigate("/writeInfo");
     }
   });
 
@@ -52,13 +50,17 @@ function Write() {
               pages.concat([
                 <PageItem
                   key={`Write/Write/pageIndex:${++pageKey.current}`}
-                  index={paragraphContents.length}
+                  index={contents.length}
                 />,
               ])
             );
 
-            paragraphContents.push([]);
-            effectData.push([]);
+            useLetterStore.getState().contents.push([
+              {
+                paragraph: "",
+                effect: { effectContent: "", effectType: "" },
+              },
+            ]);
           }}
           className="md:w-[70px] md:h-fit sm:w-9 sm:h-[70px] w-9 h-[70px] text-2xl place-self-center bg-slate-500 text-white rounded-full select-none"
         >

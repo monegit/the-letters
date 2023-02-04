@@ -2,20 +2,33 @@ import create from "zustand";
 
 interface LetterState {
   name: string;
-  paragraphContents: string[][];
-  effectData: string[][][];
+  contents: [
+    [
+      {
+        paragraph: string;
+        effect: { effectContent: string; effectType: string };
+      }
+    ]
+  ];
   isPreview: boolean;
 
   setInit: () => void;
 }
 
 export const useLetterStore = create<LetterState>()((set) => ({
-  paragraphContents: [[]],
-  effectData: [[[]]],
+  contents: [
+    [{ paragraph: "", effect: { effectContent: "", effectType: "" } }],
+  ],
   name: "",
   isPreview: false,
 
   setInit: () => {
-    set(() => ({ name: "", paragraphContents: [[]], effectData: [[[]]] }));
+    set(() => ({
+      name: "",
+      isPreview: false,
+      contents: [
+        [{ paragraph: "", effect: { effectContent: "", effectType: "" } }],
+      ],
+    }));
   },
 }));

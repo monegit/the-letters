@@ -8,7 +8,7 @@ interface Props {
 }
 
 function EmojiInput(props: Props) {
-  const { effectData } = useLetterStore();
+  const { contents } = useLetterStore();
   const [isTemplateVisible, setTemplateVisible] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -29,11 +29,12 @@ function EmojiInput(props: Props) {
             decimalRegex.test(value.target.value)
           )
             value.target.value = "";
-          effectData[props.pageIndex][props.paragraphIndex] = [
-            value.target.value,
-          ];
+          contents[props.pageIndex][props.paragraphIndex].effect.effectContent =
+            value.target.value;
         }}
-        defaultValue={effectData[props.pageIndex][props.paragraphIndex] ?? ""}
+        defaultValue={
+          contents[props.pageIndex][props.paragraphIndex]?.effect?.effectContent
+        }
         onFocus={() => {
           setTemplateVisible(true);
         }}

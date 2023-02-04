@@ -12,7 +12,7 @@ function Read() {
   const exitAnimation = useAnimation();
   const bodyAnimation = useAnimation();
 
-  const { paragraphContents, name, isPreview, effectData } = useLetterStore();
+  const { name, isPreview, contents } = useLetterStore();
 
   const [enable, setEnable] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -55,20 +55,19 @@ function Read() {
       onTap={() => {
         if (!enable) return;
 
+        console.log(contents);
+
         // currentParagraphIndex 증가
         setCurrentParagraphIndex(currentParagraphIndex + 1);
 
         // 문장 추가
-        if (
-          paragraphContents[currentPageIndex].length - 1 >=
-          currentParagraphIndex
-        ) {
+        if (contents[currentPageIndex].length - 1 >= currentParagraphIndex) {
           setParagraphItemList(
             paragraphItemList.concat(
               <ParagraphItem
                 key={`${currentPageIndex}${currentParagraphIndex}`}
                 paragraph={
-                  paragraphContents[currentPageIndex][currentParagraphIndex]
+                  contents[currentPageIndex][currentParagraphIndex].paragraph
                 }
               />
             )
@@ -76,9 +75,7 @@ function Read() {
         }
 
         // 페이지의 문장이 모두 출력되면 page 초기화
-        if (
-          paragraphContents[currentPageIndex].length <= currentParagraphIndex
-        ) {
+        if (contents[currentPageIndex].length <= currentParagraphIndex) {
           paragraphAnimation
             .start({ opacity: 0 })
             .then(() => {
@@ -95,9 +92,8 @@ function Read() {
             .then(() => {
               // currentPageIndex, currentParagraphIndex가 끝에 도달했을때
               if (
-                paragraphContents.length - 1 === currentPageIndex &&
-                paragraphContents[paragraphContents.length - 1].length ===
-                  currentParagraphIndex
+                contents.length - 1 === currentPageIndex &&
+                contents[contents.length - 1].length === currentParagraphIndex
               ) {
                 exitAnimation.set({
                   display: "flex",
@@ -153,20 +149,7 @@ function Read() {
                   axios
                     .post("http://localhost:3001/letter/send", {
                       name: name,
-                      data: paragraphContents.map((pageContent, pageIndex) => {
-                        return pageContent.map((_, paragraphIndex) => {
-                          return {
-                            paragraph:
-                              paragraphContents[pageIndex][paragraphIndex],
-                            effect: {
-                              effectContent:
-                                effectData[pageIndex][paragraphIndex][0],
-                              effectType:
-                                effectData[pageIndex][paragraphIndex][1],
-                            },
-                          };
-                        });
-                      })[0],
+                      data: contents,
                     })
                     .then((body) => {
                       console.log(body);

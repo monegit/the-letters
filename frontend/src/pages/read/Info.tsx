@@ -1,10 +1,5 @@
 import axios from "axios";
-import {
-  animate,
-  AnimationControls,
-  motion,
-  useAnimation,
-} from "framer-motion";
+import { AnimationControls, motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
@@ -23,11 +18,17 @@ const Information = (props: { animate: AnimationControls }) => {
     if (name !== "") {
       props.animate.start({ opacity: 0 }).then(() => {
         useLetterStore.setState({ isPreview: true });
-        axios.get(
-          `http://localhost:3001/letter/receive?name=${name}&password=${password}`
-        );
-        // .then((data) => useLetterStore.setState({}) (data.data.data));
-        // navigate(`/read/`);
+        axios
+          .get(
+            `http://localhost:3001/letter/receive?name=${name}&password=${password}`
+          )
+          .then((data) => {
+            useLetterStore.setState({
+              name: data.data.name,
+              contents: data.data.data,
+            });
+            navigate("/read");
+          });
       });
     } else {
       inputAnimation.set({ left: 10 });
