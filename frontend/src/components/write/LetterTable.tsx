@@ -9,7 +9,7 @@ import ParagraphItem from "./ParagraphItem";
 
 const LetterTable = (props: { animation: AnimationControls }) => {
   const { selectedPageIndex } = usePageStore();
-  const { paragraphContents, effectData } = useLetterStore();
+  const { paragraphContents, effectData, contents } = useLetterStore();
 
   const navigate = useNavigate();
   const paragraphKey = useRef(0);
@@ -25,22 +25,36 @@ const LetterTable = (props: { animation: AnimationControls }) => {
             pageIndex={selectedPageIndex}
             paragraphIndex={0}
             onChange={(e) => {
-              paragraphContents[selectedPageIndex][0] = e.target.value;
+              contents[selectedPageIndex][0].paragraph = e.target.value;
             }}
           />,
         ])
       : setParagraphItems(
-          paragraphContents[selectedPageIndex].map((paragraph, index) => (
+          contents[selectedPageIndex].map((paragraph, index) => (
             <ParagraphItem
               key={++paragraphKey.current}
-              content={paragraph}
+              content={paragraph.paragraph}
               pageIndex={selectedPageIndex}
               paragraphIndex={index}
               onChange={(e) => {
-                paragraphContents[selectedPageIndex][index] = e.target.value;
+                contents[selectedPageIndex][index].paragraph = e.target.value;
               }}
             />
           ))
+          // paragraphContents[selectedPageIndex].map((paragraph, index) => (
+          //   <ParagraphItem
+          //     key={++paragraphKey.current}
+          //     content={paragraph}
+          //     pageIndex={selectedPageIndex}
+          //     paragraphIndex={index}
+          //     onChange={(e) => {
+          //       paragraphContents[selectedPageIndex][index] = e.target.value;
+          //       useLetterStore.getState().contents[selectedPageIndex][
+          //         index
+          //       ].paragraph = e.target.value;
+          //     }}
+          //   />
+          // ))
         );
 
     if (paragraphContents[selectedPageIndex].length === 0) {
@@ -50,7 +64,7 @@ const LetterTable = (props: { animation: AnimationControls }) => {
         effectData: [...effectData],
       });
     }
-  }, [effectData, paragraphContents, selectedPageIndex]);
+  }, [contents, effectData, paragraphContents, selectedPageIndex]);
 
   return (
     <div className="grid gap-3 md:text-lg sm:text-sm text-sm">
@@ -59,14 +73,13 @@ const LetterTable = (props: { animation: AnimationControls }) => {
         <Button
           content="문단 추가"
           onClick={() => {
-            if (paragraphContents[selectedPageIndex].length >= 6) return;
+            if ([selectedPageIndex].length >= 6) return;
 
-            paragraphContents[selectedPageIndex].push("");
-            effectData[selectedPageIndex].push([]);
-            useLetterStore.setState({
-              paragraphContents: [...paragraphContents],
-              effectData: [...effectData],
+            contents[selectedPageIndex].push({
+              paragraph: "",
+              effect: { effectContent: "", effectType: "" },
             });
+            useLetterStore.setState({ contents: [...contents] });
           }}
         />
         <Button

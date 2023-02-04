@@ -20,7 +20,7 @@ const Input = (props: ParagraphProps) => {
   const optionAnimation = useAnimation();
 
   const { selectedPageIndex } = usePageStore();
-  const { paragraphContents } = useLetterStore();
+  const { contents } = useLetterStore();
 
   return (
     <motion.div
@@ -92,13 +92,8 @@ const Input = (props: ParagraphProps) => {
         <EdgeButton
           content={"✖︎"}
           onClick={() => {
-            paragraphContents[selectedPageIndex].splice(
-              props.paragraphIndex,
-              1
-            );
-            useLetterStore.setState({
-              paragraphContents: [...paragraphContents],
-            });
+            contents[selectedPageIndex].splice(props.paragraphIndex, 1);
+            useLetterStore.setState({ contents: [...contents] });
           }}
         />
       </motion.div>
@@ -107,8 +102,6 @@ const Input = (props: ParagraphProps) => {
 };
 
 const ParagraphItem = (props: ParagraphProps) => {
-  const { paragraphContents } = useLetterStore();
-
   return (
     <div className="h-full">
       <Input
