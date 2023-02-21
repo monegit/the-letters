@@ -48,20 +48,12 @@ function Main() {
     <motion.div className="flex flex-col items-center" animate={bodyAnimation}>
       <Modal content={<>asdf</>} />
       <Table bodyAnimation={bodyAnimation} />
-      <div>
+      {/* <div>
         <OpenLetterItem />
         <OpenLetterItem />
         <OpenLetterItem />
         <OpenLetterItem />
-      </div>
-      <button
-        onClick={() => {
-          useModalStore.setState({ isVisible: true });
-          console.log(isVisible);
-        }}
-      >
-        asdf
-      </button>
+      </div> */}
     </motion.div>
   );
 }

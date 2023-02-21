@@ -21,10 +21,13 @@ function EmojiActionTemplate(props: Props) {
           }}
           className="absolute w-80 h-52 top-10 -translate-x-1/2 left-4 bg-white border border-slate-200 shadow-round rounded-xl"
         >
+          <div className="grid justify-center text-2xl h-full place-items-center">
+            준비중👷‍♂️
+          </div>
+          {/* <EmojiActionItem />
           <EmojiActionItem />
           <EmojiActionItem />
-          <EmojiActionItem />
-          <EmojiActionItem />
+          <EmojiActionItem /> */}
         </motion.div>
       )}
     </AnimatePresence>
