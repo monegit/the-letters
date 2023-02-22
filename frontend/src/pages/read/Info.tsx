@@ -20,7 +20,7 @@ const Information = (props: { animate: AnimationControls }) => {
         useLetterStore.setState({ isPreview: true });
         axios
           .get(
-            `http://localhost:3001/letter/receive?name=${name}&password=${password}`
+            `http://${process.env.REACT_APP_SERVER_HOST}:3001/letter/receive?name=${name}&password=${password}`
           )
           .then((data) => {
             useLetterStore.setState({

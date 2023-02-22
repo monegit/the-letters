@@ -147,10 +147,13 @@ function Read() {
                 onClick={(e) => {
                   e.preventDefault();
                   axios
-                    .post("http://localhost:3001/letter/send", {
-                      name: name,
-                      data: contents,
-                    })
+                    .post(
+                      `http://${process.env.REACT_APP_SERVER_HOST}:3001/letter/send`,
+                      {
+                        name: name,
+                        data: contents,
+                      }
+                    )
                     .then((body) => {
                       console.log(body);
                     });

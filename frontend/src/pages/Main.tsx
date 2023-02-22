@@ -1,10 +1,8 @@
 import { AnimationControls, useAnimation } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/main/Button";
-import OpenLetterItem from "../components/main/OpenLetterItem";
 import { motion } from "framer-motion";
 import Modal from "../components/Modal";
-import { useModalStore } from "../store/modal/modal";
 import { useLetterStore } from "../store/letter/letter";
 import { useEffect } from "react";
 
@@ -41,8 +39,6 @@ const Table = (props: { bodyAnimation: AnimationControls }) => {
 
 function Main() {
   const bodyAnimation = useAnimation();
-
-  const { isVisible } = useModalStore();
 
   return (
     <motion.div className="flex flex-col items-center" animate={bodyAnimation}>
