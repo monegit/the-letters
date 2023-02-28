@@ -30,12 +30,12 @@ I liked to write notes, letters, blogs, everything. But among them, writing and 
 
 ----
 
-## Display Preview
-
-### Write
+<strong><h2 align="center">Write Preview</h2></strong>
 <p align="center"><img src="./images/1.png" width="500" /></p>
 <p align="center"><img src="./images/2.png" width="500" /></p>
 
-### Read
+---
+
+<strong><h2 align="center">Read Preview</h2></strong>
 <p align="center"><img src="./images/3.png" width="500" /></p>
 <p align="center"><img src="./images/4.png" width="500" /></p>
