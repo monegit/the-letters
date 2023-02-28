@@ -4,7 +4,7 @@
 🗓️ Project Duration 2022. 12. 17 ~ ing
 ```
 
-> See more features and actions [here](https://github.com/users/monegit/projects/5)
+> See more features and tasks [here](https://github.com/users/monegit/projects/5)
 
 ### Why did you make it?
 I liked to write notes, letters, blogs, everything. But among them, writing and reading letters seemed very boring. So I decided to change it and express it in my own way.
