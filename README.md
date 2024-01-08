@@ -1,9 +1,5 @@
 # 📝 The-Letters
 
-```
-🗓️ Project Duration 2022. 12. 17 ~ ing
-```
-
 > See more features and tasks [here](https://github.com/users/monegit/projects/5)
 
 ### Why did you make it?
